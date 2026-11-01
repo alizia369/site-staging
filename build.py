@@ -10,12 +10,28 @@ Standard library only; Python 3.12 or newer.
 """
 import html
 import json
+import os
 import pathlib
 import re
 from datetime import date
 
 ROOT = pathlib.Path(__file__).resolve().parent
 SITE = "https://ali-zia.me"
+# Optional base path for a preview copy served below a domain root, e.g. SITE_BASE=/site-staging
+# for https://alizia369.github.io/site-staging/. Leave unset for production: output is unchanged.
+BASE = os.environ.get("SITE_BASE", "").rstrip("/")
+
+
+def rebase(text):
+    """Prefix root-relative links with BASE and mark the preview so search engines skip it."""
+    if not BASE:
+        return text
+    text = re.sub(r'(href|src)="/(?!/)', rf'\1="{BASE}/', text)
+    text = text.replace("; url=/", f"; url={BASE}/")
+    text = text.replace("<head>\n", '<head>\n<meta name="robots" content="noindex, nofollow">\n', 1)
+    text = text.replace("<body>\n", '<body>\n<div style="background:#b7650e;color:#fff;text-align:center;'
+                        'font:600 13px/2.2 system-ui,sans-serif">Staging preview, not the live site</div>\n', 1)
+    return text
 ME = re.compile(r"\b(A\.\s?Zia)\b")
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 TOPICS = [("topology", "Topology"), ("hyperspectral", "Hyperspectral"), ("anomaly", "Anomaly detection"),
@@ -138,15 +154,15 @@ def page(path, title, description, body):
 def write(path, title, description, body):
     out = ROOT / (path.strip("/") or ".") / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(page(path, title, description, body), encoding="utf-8")
+    out.write_text(rebase(page(path, title, description, body)), encoding="utf-8")
     print("wrote", out.relative_to(ROOT))
 
 
 def redirect(old, new):
     out = ROOT / old.strip("/") / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{SITE}{new}">'
-                   f'<meta http-equiv="refresh" content="0; url={new}"><p>This page moved to <a href="{new}">{new}</a>.</p>\n', encoding="utf-8")
+    out.write_text(rebase(f'<!doctype html><meta charset="utf-8"><title>Moved</title><link rel="canonical" href="{SITE}{new}">'
+                          f'<meta http-equiv="refresh" content="0; url={new}"><p>This page moved to <a href="{new}">{new}</a>.</p>\n'), encoding="utf-8")
     print("wrote", out.relative_to(ROOT), "->", new)
 
 
