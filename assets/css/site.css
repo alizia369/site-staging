@@ -392,3 +392,17 @@ a.g-media:hover { border-color: var(--a, var(--leaf)); }
 .g-credit { display: block; font-size: .72rem; color: var(--ink-2); opacity: .85; margin-top: 2px; }
 .card-head + .ev-h + .gallery { margin-bottom: 4px; }
 @container theme (min-width: 640px) { .gallery[data-n="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- home: awards and recognition ---------- */
+.awards { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 28px; }
+@media (min-width: 720px) { .awards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.awards li { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+.aw-ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--leaf-soft); color: var(--leaf); }
+.aw-ic svg { width: 17px; height: 17px; }
+.awards .h { display: block; font-weight: 600; line-height: 1.35; }
+.awards .s { display: block; font-size: .88rem; color: var(--ink-2); line-height: 1.45; margin-top: 2px; }
+.awards .s .vt { --a: var(--leaf); margin-left: 2px; }
+.awards .y { font-size: .82rem; color: var(--ink-2); white-space: nowrap; padding-top: 2px; }
+
+/* caption under a theme's main figure */
+.theme-cap { margin: 8px 2px 0; font-size: .84rem; line-height: 1.5; color: var(--ink-2); }

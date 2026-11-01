@@ -263,6 +263,11 @@ def build_home(news, pubs, code):
       <a class="more-link" href="/resume/#pathway">Full career pathway</a>
     </section>
 
+    <section id="recognition" aria-labelledby="rec-h">
+      <h2 id="rec-h">Awards and recognition</h2>
+      {recognition_html(pubs)}
+    </section>
+
     <section id="news">
       <h2>News</h2>
       <ul class="news" id="news-list">{items}</ul>
@@ -462,6 +467,9 @@ def build_resume():
           <ul class="entries">
             <li><div class="h">Tutorial organiser</div><div class="s">Topological Deep Learning, ACML 2026</div></li>
             <li><div class="h">Co-lead</div><div class="s">CSIRO ML Workshop Series</div></li>
+            <li><div class="h">Best student paper award</div><div class="s">DICTA 2025</div></li>
+            <li><div class="h">Guest editor</div><div class="s">Frontiers in Remote Sensing special issue on resilient cities, remote sensing and AI, 2025</div></li>
+            <li><div class="h">Sole invited speaker</div><div class="s">Joint IEEE GRSS, IEEE CS and CDS seminar at ANU, 2025</div></li>
             <li><div class="h">Runner-up paper award</div><div class="s">DICTA 2023</div></li>
             <li><div class="h">Best project award</div><div class="s">Robot path identification and map construction, 2011</div></li>
           </ul>
@@ -621,10 +629,14 @@ THEME_COPY = {
     "topology": ('<img src="/assets/img/projects/tdl-pipeline.jpg" alt="Diagram of topological deep learning: topological embedding, representation and loss during training, and topological analysis after training" loading="lazy">',
                  '<p>Topology describes what stays the same when data is stretched or corrupted: connected parts, loops and voids. I use persistent homology to turn anomaly maps into reliable pseudo-labels, optimal transport to compare persistence diagrams across scales, and hypergraphs and cell complexes to model relations between sensors and views in radar and fault diagnosis.</p>'
                  '<p>I co-wrote a <a href="https://link.springer.com/article/10.1007/s10462-024-10710-9">review of topological deep learning</a>, contributed to <a href="https://www.jmlr.org/papers/v25/24-0110.html">TopoX</a>, and am teaching a tutorial on the topic at ACML 2026.</p>'),
-    "hyperspectral": ('<img src="/assets/img/hero-cube.webp" alt="A field image of grazing cattle with detection boxes and pose keypoints, drawn as the front face of a hyperspectral cube whose layers are tinted from violet to near-infrared grey" loading="lazy">',
+    "hyperspectral": ('<img src="/assets/img/papers/tip-depth-composite.webp" alt="Depth from chromatic aberration: a checkerboard board in a hyperspectral image, the same edge cropped from bands between 580 and 940 nm showing blur that changes with wavelength, and below, the 720 nm band image beside the recovered relative depth map" loading="lazy" width="1400" height="1041">',
                       '<p>A hyperspectral camera records hundreds of narrow bands, so each pixel carries a spectrum rather than three colours. My PhD used these spectra for 3D vision, recovering depth from chromatic aberration and defocus. Since then I have worked on weak-signal unmixing, spectral features for food and crops, and on fusing spectral data with lidar, point clouds and radar.</p>'),
     "reliable": ('<img src="/assets/img/anomaly-masks.jpg" alt="Anomaly segmentation results: input, ground truth, heat map, threshold baseline, TTT4AS and TopoTTA" loading="lazy" width="981" height="412">',
                  '<p>Models trained in the lab meet new lighting, sensors and populations in deployment. I work on test-time adaptation that needs no source data or labels, on diagnosing out-of-distribution robustness from representation geometry, on training-free reasoning with vision–language models, and on learning when labels are scarce.</p>'),
+}
+
+THEME_CAPTION = {  # optional caption under a theme's main figure: (text, start of the paper title)
+    "hyperspectral": ("Depth from a single hyperspectral image, using chromatic aberration and defocus.", "Exploring Chromatic Aberration"),
 }
 
 THEME_TEASER = {
@@ -632,6 +644,24 @@ THEME_TEASER = {
     "hyperspectral": "Hundreds of narrow bands reveal what RGB cannot: protein in chickpea, contamination in meat, disease in sugarcane. Weak-signal unmixing, spectral 3D vision and fusion with lidar and radar.",
     "reliable": "Test-time adaptation and out-of-distribution robustness for models deployed where data shifts: industrial inspection, radar, fault diagnosis and embryo assessment for IVF.",
 }
+
+
+def theme_caption(theme_id, pubs):
+    if theme_id not in THEME_CAPTION:
+        return ""
+    text, paper = THEME_CAPTION[theme_id]
+    return f'<p class="theme-cap">{esc(text)} {venue_tag(find_pub(pubs, paper))}</p>'
+
+
+def recognition_html(pubs):
+    lis = []
+    for r in OV["recognition"]:
+        detail = esc(r["detail"])
+        if r.get("paper"):
+            detail += " " + venue_tag(find_pub(pubs, r["paper"]))
+        lis.append(f'<li><span class="aw-ic">{icon(r["icon"])}</span><div><span class="h">{esc(r["title"])}</span>'
+                   f'<span class="s">{detail}</span></div><span class="y">{esc(r["year"])}</span></li>')
+    return f'<ul class="awards">{"".join(lis)}</ul>'
 
 
 def theme_teasers():
@@ -653,7 +683,7 @@ def build_research(projects, earlier, pubs, code):
     for t in OV["themes"]:
         fig, prose = THEME_COPY[t["id"]]
         themes.append(f'<article class="theme-card" id="{t["id"]}" style="--a:var(--c-{t["color"]})">{card_head(t["title"], t["icon"])}'
-                      f'<div class="theme-body"><div class="theme-fig">{fig}</div><div class="theme-text">{prose}</div></div>'
+                      f'<div class="theme-body"><div><div class="theme-fig">{fig}</div>{theme_caption(t["id"], pubs)}</div><div class="theme-text">{prose}</div></div>'
                       f'{gallery(t.get("figures", []), pubs) if t.get("figures") else ""}{evidence(t["items"], pubs)}</article>')
 
     by_domain = {}

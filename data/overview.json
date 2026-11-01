@@ -1,5 +1,5 @@
 {
- "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed); top_venues are named on the home publications tile and must each match the short name of at least one paper in publications.json. themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json. Theme and application figures: img is relative to assets/img/ (svg names a file in assets/svg/); paper links the caption to that publication.",
+ "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed); top_venues are named on the home publications tile and must each match the short name of at least one paper in publications.json. themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json. Theme and application figures: img is relative to assets/img/ (svg names a file in assets/svg/); paper links the caption to that publication. recognition: the Awards and recognition list on the home page, newest first; paper links an item to that publication.",
  "stats": {
   "funding": {
    "value": 1.3,
@@ -244,6 +244,46 @@
   ],
   "parallel_label": "In parallel at Griffith University"
  },
+ "recognition": [
+  {
+   "icon": "award",
+   "title": "Best Student Paper Award",
+   "detail": "For weakly supervised pixel-wise classification of hyperspectral images",
+   "year": "2025",
+   "paper": "Weakly Supervised Pixel-Wise"
+  },
+  {
+   "icon": "mic",
+   "title": "Sole invited speaker",
+   "detail": "Joint IEEE GRSS, IEEE CS and CDS seminar at ANU on fine-grained AI",
+   "year": "2025"
+  },
+  {
+   "icon": "book",
+   "title": "Guest editor",
+   "detail": "Frontiers in Remote Sensing special issue, Building Resilient Cities through Remote Sensing and Artificial Intelligence",
+   "year": "2025"
+  },
+  {
+   "icon": "landmark",
+   "title": "Invited contributor",
+   "detail": "Wrote the AI in Agriculture section of a report on artificial intelligence to the Australian Senate, through the ANU Integrated AI Network",
+   "year": "2024"
+  },
+  {
+   "icon": "award",
+   "title": "Runner-up Best Paper Award",
+   "detail": "For contrastive-aware ViT for weakly supervised semantic segmentation",
+   "year": "2023",
+   "paper": "Contrastive-Aware ViT"
+  },
+  {
+   "icon": "acad",
+   "title": "Teaching Excellence Awards",
+   "detail": "With Best Instructor commendations, COMSATS University",
+   "year": "2011–13"
+  }
+ ],
  "themes": [
   {
    "id": "topology",
