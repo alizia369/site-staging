@@ -1,0 +1,43 @@
+name: Publish staging preview
+# Staging copy of alizia369.github.io. Builds the site with a base path equal to this
+# repository's name (e.g. /site-staging) and publishes it to GitHub Pages.
+# Committed HTML stays production-style, so changes can be promoted unchanged.
+# Repository settings: Pages > Build and deployment > Source = "GitHub Actions".
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Build with staging base path
+        env:
+          SITE_BASE: /${{ github.event.repository.name }}
+        run: python build.py
+      - name: Drop repository-only files from the published copy
+        run: rm -rf .git .github README.md STAGING.md build.py tools
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
