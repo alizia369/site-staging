@@ -339,20 +339,27 @@
    ],
    "figures": [
     {
-     "img": "projects/hsi-cube.jpg",
-     "alt": "A hyperspectral image cube, the spectrum of one pixel plotted against wavelength, and a false-colour map",
-     "caption": "Each pixel carries a spectrum rather than three colours."
+     "img": "papers/tgrs-classification.webp",
+     "alt": "Land-cover classification maps of the Houston 2013 scene: the ground truth and maps from eight comparison methods and the proposed network, coloured by classes such as grass, trees, water, roads, railway and parking lots",
+     "caption": "Hyperspectral–LiDAR land-cover maps of Houston.",
+     "paper": "Geometry-Conditioned Implicit"
+    },
+    {
+     "img": "papers/wsnet-datasets.webp",
+     "alt": "Three hyperspectral scenes (simulated, Samson and Apex) shown in colour, with an abundance map for each material and the endmember spectra plotted against wavelength",
+     "caption": "Hyperspectral scenes unmixed into material abundances and spectra.",
+     "paper": "WS-Net"
+    },
+    {
+     "img": "papers/wsnet-cuprite.webp",
+     "alt": "Abundance maps of five minerals (alunite, dumortierite, kaolinite, sphene and chalcedony) on the Cuprite scene: ground truth, seven comparison methods and WS-Net",
+     "caption": "Mineral abundance maps on the Cuprite scene.",
+     "paper": "WS-Net"
     },
     {
      "img": "papers/hyperradar-arch.webp",
      "alt": "HyperRadar architecture: range–Doppler, range–angle and angle–Doppler radar views are encoded, refined with hypergraph features and fused for segmentation",
      "caption": "Three radar views refined with hypergraphs and fused.",
-     "paper": "Learning Structurally Consistent"
-    },
-    {
-     "img": "papers/hyperradar-results.webp",
-     "alt": "Radar segmentation results for two driving scenes: camera frame, radar views, ground truth and predicted masks",
-     "caption": "Multi-view radar segmentation compared with ground truth.",
      "paper": "Learning Structurally Consistent"
     }
    ]

@@ -391,3 +391,4 @@ a.g-media:hover { border-color: var(--a, var(--leaf)); }
 .gallery[data-n="1"] .g-media img { position: static; width: 100%; height: auto; }
 .g-credit { display: block; font-size: .72rem; color: var(--ink-2); opacity: .85; margin-top: 2px; }
 .card-head + .ev-h + .gallery { margin-bottom: 4px; }
+@container theme (min-width: 640px) { .gallery[data-n="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
