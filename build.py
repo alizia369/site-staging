@@ -516,8 +516,8 @@ def career_node(n):
 
 def tile(value, label, detail, decimals=0, prefix="", suffix=""):
     shown = f"{prefix}{value:,.{decimals}f}{suffix}"
-    return (f'<div class="tile"><b><span aria-hidden="true" data-count="{value}" data-decimals="{decimals}" data-prefix="{esc(prefix)}" '
-            f'data-suffix="{esc(suffix)}">{esc(shown)}</span><span class="sr">{esc(shown)}</span></b>'
+    return (f'<div class="tile"><b><span data-count="{value}" data-decimals="{decimals}" data-prefix="{esc(prefix)}" '
+            f'data-suffix="{esc(suffix)}">{esc(shown)}</span></b>'
             f'<span class="l">{esc(label)}</span><span class="d">{esc(detail)}</span></div>')
 
 
