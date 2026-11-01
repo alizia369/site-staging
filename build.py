@@ -76,7 +76,7 @@ def svg(name):
 
 
 # ---------------------------------------------------------------- layout
-MENU = [("/", "About"), ("/research/", "Research"), ("/publications/", "Publications"),
+MENU = [("/", "About"), ("/career/", "Career"), ("/research/", "Research"), ("/publications/", "Publications"),
         ("/code/", "Code"), ("/teaching/", "Teaching"), ("/grants/", "Grants"), ("/resume/", "Resume")]
 
 ICONS = {
@@ -355,7 +355,7 @@ def build_publications(pubs):
             tags = "".join(f'<span class="tag">{tl.get(t, t)}</span>' for t in p["topics"])
             note = f'<span class="award">{esc(p["note"])}</span>' if p.get("note") else ""
             search = esc(" ".join([p["title"], p["authors"], p["venue"], p.get("short", ""), str(p["year"])] + [tl.get(t, t) for t in p["topics"]]).lower())
-            lis.append(f'<li class="pub" data-type="{p["type"]}" data-topics="{" ".join(p["topics"])}" data-search="{search}">'
+            lis.append(f'<li class="pub" id="{pub_id(p)}" data-type="{p["type"]}" data-topics="{" ".join(p["topics"])}" data-search="{search}">'
                        f'<span class="t">{esc(p["title"])}</span><span class="a">{bold_me(p["authors"])}</span>'
                        f'<span class="meta"><span class="v">{esc(p["venue"])}</span>{links}{note}{tags}</span></li>')
         blocks.append(f'<section class="year-block"><h2>{year}</h2><ul class="pubs">{"".join(lis)}</ul></section>')
@@ -516,6 +516,121 @@ def build_resume():
     write("/resume/", "Resume", "Resume of Ali Zia: positions, education, service and downloadable CVs.", body)
 
 
+# ---------------------------------------------------------------- career
+CAT_LABEL = {"edu": "Education", "ind": "Industry", "acad": "Academic and teaching", "res": "Industry and academic research"}
+
+
+def pub_id(p):
+    """Stable anchor for a paper on the Publications page, derived from its title."""
+    s = re.sub(r"[^a-z0-9]+", "-", p["title"].lower()).strip("-")
+    if len(s) > 60:
+        s = s[:60].rsplit("-", 1)[0]
+    return "p-" + s
+
+
+def icon(name):
+    return svg(f"icons/{name}.svg")  # Lucide icons, ISC licence (assets/svg/icons/LICENSE-lucide.txt)
+
+
+def find_pub(pubs, prefix):
+    found = [p for p in pubs if p["title"].startswith(prefix)]
+    if len(found) != 1:
+        raise SystemExit(f"data/overview.json: {prefix!r} matches {len(found)} publications; it must match exactly one")
+    return found[0]
+
+
+def venue_tag(p):
+    label = p.get("short") or ("arXiv" if p["type"] == "preprint" else p["venue"])
+    return f'<a class="vt" href="/publications/#{pub_id(p)}" title="{esc(p["title"])}">{esc(label)} {p["year"]}</a>'
+
+
+def career_node(n):
+    badges = f'<span class="badge" data-cat="{n["cat"]}">{icon(n["cat"])}<span class="sr">{CAT_LABEL[n["cat"]]}</span></span>'
+    if n.get("teach"):
+        badges += f'<span class="badge" data-cat="acad">{icon("acad")}<span class="sr">with teaching</span></span>'
+    role = esc(n["role"])
+    if n.get("brief"):
+        role = f'<span class="full">{role}</span><span class="brief" aria-hidden="true">{esc(n["brief"])}</span>'
+    now = '<span class="now">Current role</span>' if n.get("current") else ""
+    extra = f'<span class="o">{esc(n["extra"])}</span>' if n.get("extra") else ""
+    cls = "node" + (" current" if n.get("current") else "") + (" par" if n.get("parallel") else "")
+    return (f'<li class="{cls}" id="cn-{n["id"]}" data-cat="{n["cat"]}" style="--col:{n["col"]};--row:{n.get("row", 1)}">'
+            f'<span class="badges">{badges}</span>{now}<span class="r">{role}</span><span class="o">{esc(n["org"])}</span>{extra}</li>')
+
+
+def area_cards(areas, pubs):
+    cards = []
+    for a in areas:
+        items = []
+        for it in a["items"]:
+            tags = "".join(venue_tag(find_pub(pubs, pre)) for pre in it["papers"])
+            items.append(f'<li><span class="it">{esc(it["t"])}</span><span class="vts">{tags}</span></li>')
+        cards.append(f'<article class="area" style="--a:var(--c-{a["color"]})"><h3><span class="area-ic">{icon(a["icon"])}</span>{esc(a["title"])}</h3>'
+                     f'<ul class="area-items">{"".join(items)}</ul></article>')
+    return f'<div class="areas">{"".join(cards)}</div>'
+
+
+def stat_tile(value, label, detail, decimals=0, prefix="", suffix=""):
+    shown = f"{prefix}{value:,.{decimals}f}{suffix}"
+    return (f'<div class="stat"><b><span aria-hidden="true" data-count="{value}" data-decimals="{decimals}" data-prefix="{esc(prefix)}" '
+            f'data-suffix="{esc(suffix)}">{esc(shown)}</span><span class="sr">{esc(shown)}</span></b>'
+            f'<span>{esc(label)}</span><span class="d">{esc(detail)}</span></div>')
+
+
+def build_career(ov, pubs):
+    n_journal = sum(p["type"] == "journal" for p in pubs)
+    n_conf = sum(p["type"] in ("conference", "workshop") for p in pubs)
+    st = ov["stats"]
+    stats = "".join([
+        stat_tile(len(pubs), "publications", f"{n_journal} journal articles and {n_conf} conference and workshop papers"),
+        stat_tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} on Google Scholar, {scholar_date()}"),
+        stat_tile(st["funding"]["value"], st["funding"]["label"], st["funding"]["detail"], st["funding"].get("decimals", 0),
+                  st["funding"].get("prefix", ""), st["funding"].get("suffix", "")),
+        stat_tile(st["students"]["value"], st["students"]["label"], st["students"]["detail"], 0, "", st["students"].get("suffix", "")),
+    ])
+
+    car = ov["career"]
+    ids = {n["id"] for n in car["nodes"]}
+    for e in car["edges"]:
+        if e[0] not in ids or e[1] not in ids:
+            raise SystemExit(f"data/overview.json: career edge {e} names an unknown node")
+    band1 = "".join(career_node(n) for n in car["nodes"] if n["band"] == 1)
+    band2 = "".join(career_node(n) for n in car["nodes"] if n["band"] == 2)
+    legend = "".join(f'<li><span class="badge" data-cat="{k}">{icon(k)}</span>{v}</li>' for k, v in
+                     (("edu", "Education"), ("ind", "Industry"), ("acad", "Academic and teaching"), ("res", "Research with industry")))
+
+    body = f"""
+    <section aria-labelledby="t">
+      <h1 class="page-title" id="t">Career at a glance</h1>
+      <p class="intro-text">From software engineering to research leadership in machine learning, with teaching alongside research at every stage. The figures below update from the publications list and Google Scholar.</p>
+      <div class="stats">{stats}</div>
+    </section>
+
+    <section class="career-path" aria-labelledby="path-h">
+      <h2 id="path-h">Career pathway</h2>
+      <ul class="legend" aria-label="Key">{legend}</ul>
+      <div class="flow" data-flow data-edges="{esc(json.dumps(car["edges"]))}">
+        <svg class="flow-lines" aria-hidden="true" focusable="false"></svg>
+        <ol class="band band1" aria-label="Early career">{band1}</ol>
+        <p class="par-label">{esc(car["parallel_label"])}</p>
+        <ol class="band band2" aria-label="Griffith, postdoctoral and current roles">{band2}</ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="focus-h">
+      <h2 id="focus-h">Research focus</h2>
+      <p class="intro-text">Four connected areas. Each tag opens the paper behind it.</p>
+      {area_cards(ov["focus"], pubs)}
+    </section>
+
+    <section aria-labelledby="apps-h">
+      <h2 id="apps-h">Selected applications</h2>
+      <p class="intro-text">Where these methods have been applied, again with the supporting papers.</p>
+      {area_cards(ov["applications"], pubs)}
+    </section>"""
+    write("/career/", "Career at a glance", "Career pathway, research focus and applications of Ali Zia, with links to the supporting publications.", body)
+
+
 if __name__ == "__main__":
     news = data("news.json")["items"]
     pubs = data("publications.json")["items"]
@@ -528,4 +643,5 @@ if __name__ == "__main__":
     build_teaching()
     build_grants(data("grants.json"))
     build_resume()
+    build_career(data("overview.json"), pubs)
     redirect("/cv/", "/resume/")
