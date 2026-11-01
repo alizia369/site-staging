@@ -372,15 +372,22 @@ footer p { margin: 0 0 6px; }
 }
 
 /* ---------- Research: figures from the papers ---------- */
-.theme-card { container: theme / inline-size; }
+.theme-card, .domain { container: theme / inline-size; }
 .gallery { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
 @container theme (min-width: 440px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container theme (min-width: 640px) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .g-item { margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .g-media { display: grid; place-items: center; aspect-ratio: 4 / 3; padding: 6px; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
 a.g-media:hover { border-color: var(--a, var(--leaf)); }
-.g-media img { width: 100%; height: 100%; object-fit: contain; }
+.g-media { position: relative; }
+.g-media img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); object-fit: contain; }
 .g-media.drawn { background: var(--surface); padding: 10px; }
 .g-media svg { width: 100%; height: 100%; }
 .g-item figcaption { margin: 0; font-size: .84rem; line-height: 1.5; color: var(--ink-2); }
 .g-item figcaption .vt { margin-left: 2px; }
+.gallery[data-n="1"] { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+@container theme (min-width: 440px) { .gallery[data-n="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gallery[data-n="1"] .g-media { aspect-ratio: auto; }
+.gallery[data-n="1"] .g-media img { position: static; width: 100%; height: auto; }
+.g-credit { display: block; font-size: .72rem; color: var(--ink-2); opacity: .85; margin-top: 2px; }
+.card-head + .ev-h + .gallery { margin-bottom: 4px; }

@@ -597,8 +597,9 @@ def gallery(figs, pubs):
             media = (f'<a class="g-media" href="/assets/img/{esc(f["img"])}" title="Open full size">'
                      f'<img src="/assets/img/{esc(f["img"])}" alt="{esc(f["alt"])}" loading="lazy"></a>')
         tag = " " + venue_tag(find_pub(pubs, f["paper"])) if f.get("paper") else ""
-        out.append(f'<figure class="g-item">{media}<figcaption>{esc(f["caption"])}{tag}</figcaption></figure>')
-    return f'<p class="ev-h">From the papers</p><div class="gallery">{"".join(out)}</div>'
+        credit = f' <span class="g-credit">{esc(f["credit"])}</span>' if f.get("credit") else ""
+        out.append(f'<figure class="g-item">{media}<figcaption>{esc(f["caption"])}{tag}{credit}</figcaption></figure>')
+    return f'<p class="ev-h">From the papers</p><div class="gallery" data-n="{len(figs)}">{"".join(out)}</div>'
 
 
 def card_head(title, icon_name, level="h3"):
@@ -666,8 +667,9 @@ def build_research(projects, earlier, pubs, code):
     for a in OV["applications"]:
         projs = by_domain.get(a["id"], [])
         proj_html = (f'<p class="ev-h">Projects</p><div class="projects">{"".join(project_card(p) for p in projs)}</div>' if projs else "")
+        figs = gallery(a["figures"], pubs) if a.get("figures") else ""
         domains.append(f'<article class="domain" id="{a["id"]}" style="--a:var(--c-{a["color"]})">{card_head(a["title"], a["icon"])}'
-                       f'{evidence(a["items"], pubs)}{proj_html}</article>')
+                       f'{figs}{evidence(a["items"], pubs)}{proj_html}</article>')
     others = by_domain.get("other", [])
     other_html = (f'<h3 class="block-title" style="margin-top:40px">Other projects</h3><div class="projects">{"".join(project_card(p) for p in others)}</div>'
                   if others else "")

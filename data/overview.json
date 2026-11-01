@@ -1,5 +1,5 @@
 {
- "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed); top_venues are named on the home publications tile and must each match the short name of at least one paper in publications.json. themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json. Theme figures: img is relative to assets/img/ (svg names a file in assets/svg/); paper links the caption to that publication.",
+ "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed); top_venues are named on the home publications tile and must each match the short name of at least one paper in publications.json. themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json. Theme and application figures: img is relative to assets/img/ (svg names a file in assets/svg/); paper links the caption to that publication.",
  "stats": {
   "funding": {
    "value": 1.3,
@@ -443,7 +443,21 @@
      ]
     }
    ],
-   "id": "agri"
+   "id": "agri",
+   "figures": [
+    {
+     "img": "papers/bionet-reconstruction.webp",
+     "alt": "A drone image of crop rows beside two 3D reconstructions of the same plot: a sharp one from NeFF with its geometry loss and a blurrier one without it",
+     "caption": "From drone images to 3D crops for biomass prediction.",
+     "paper": "BioNet and NeFF"
+    },
+    {
+     "img": "projects/annotation-flow.jpg",
+     "alt": "CVB annotation workflow: surveillance video is trimmed into clips, cattle are detected and tracked, and behaviours are annotated in CVAT, with example frames below",
+     "caption": "Semi-automatic annotation of cattle behaviour video.",
+     "paper": "CVB: A Video Dataset"
+    }
+   ]
   },
   {
    "title": "Healthcare",
@@ -469,7 +483,22 @@
      ]
     }
    ],
-   "id": "health"
+   "id": "health",
+   "figures": [
+    {
+     "img": "papers/bci-system.webp",
+     "alt": "Brain–computer interface wheelchair: an Emotiv EPOC+ headset sends EEG over Bluetooth for signal processing and model training, navigation commands drive the wheelchair, and a mental-state detector alerts an attendant",
+     "caption": "EEG control of a wheelchair, with stress detection that alerts an attendant.",
+     "paper": "A Mental State Aware",
+     "credit": "Figure CC BY 4.0"
+    },
+    {
+     "img": "papers/fundus-enhancement.webp",
+     "alt": "A degraded fundus image enhanced by five published methods and by MTRL-FIE, with zoomed views of the optic disc and vessels and the high-quality reference",
+     "caption": "Fundus enhancement compared with five other methods.",
+     "paper": "Multi-Scale Target-Aware"
+    }
+   ]
   },
   {
    "title": "Energy Optimisation",
@@ -496,7 +525,15 @@
      ]
     }
    ],
-   "id": "energy"
+   "id": "energy",
+   "figures": [
+    {
+     "img": "papers/energy-forecasting.webp",
+     "alt": "Forecasting pipeline: historical load and meteorological data are decomposed with a best-basis stationary wavelet packet transform, forecast by parallel HHO-FNN models and reconstructed into a day-ahead load forecast",
+     "caption": "Wavelet decomposition and HHO-FNN models for day-ahead load forecasting.",
+     "paper": "Short-Term Load Forecasting"
+    }
+   ]
   },
   {
    "title": "Cybersecurity and IoT",
@@ -517,7 +554,21 @@
      ]
     }
    ],
-   "id": "security"
+   "id": "security",
+   "figures": [
+    {
+     "img": "papers/iot-fingerprinting.webp",
+     "alt": "Device fingerprinting process: traffic capture, feature extraction, preprocessing, fingerprint generation, sampling into training and testing data, model training, evaluation and device classification",
+     "caption": "Identifying IoT devices from their network traffic.",
+     "paper": "A Comparative Analysis of IoT"
+    },
+    {
+     "img": "papers/iot-blockchain.webp",
+     "alt": "System model: IoT and less capable devices offload work through an edge server to volunteer devices over the internet, with a public blockchain alongside",
+     "caption": "Edge offloading to volunteer devices, with incentives on a public blockchain.",
+     "paper": "Deadline-Aware Workload"
+    }
+   ]
   }
  ]
 }
