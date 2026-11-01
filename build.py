@@ -64,6 +64,7 @@ def _scholar():
 
 
 SCHOLAR = _scholar()
+OV = data("overview.json")  # career, stats, themes and applications
 
 
 def scholar_date():
@@ -76,7 +77,7 @@ def svg(name):
 
 
 # ---------------------------------------------------------------- layout
-MENU = [("/", "About"), ("/career/", "Career"), ("/research/", "Research"), ("/publications/", "Publications"),
+MENU = [("/", "About"), ("/research/", "Research"), ("/publications/", "Publications"),
         ("/code/", "Code"), ("/teaching/", "Teaching"), ("/grants/", "Grants"), ("/resume/", "Resume")]
 
 ICONS = {
@@ -233,6 +234,15 @@ def build_home(news, pubs, code):
     n_hsi = len(code["groups"][1]["items"])
     sel_html = "".join(f'<h3 class="year">{lab}</h3><ul class="pubs">{"".join(compact_pub(p) for p in ps)}</ul>' for lab, ps in groups)
 
+    n_journal, n_conf, _ = counts(pubs, code)
+    glance_tiles = tiles([
+        tile(len(pubs), "publications", f"{n_journal} journal articles, {n_conf} conference and workshop papers, {len(pubs) - n_journal - n_conf} preprints and other works"),
+        tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} on Google Scholar, {scholar_date()}"),
+        fixed_tile("funding"),
+        fixed_tile("offerings"),
+        fixed_tile("students"),
+        fixed_tile("years"),
+    ], 3, "Research and teaching in numbers")
     body = f"""
     <section id="about" aria-label="About">
       <p class="lede">I build machine learning models that keep working when data is scarce, noisy or shifted.</p>
@@ -246,6 +256,13 @@ def build_home(news, pubs, code):
       </figure>
     </section>
 
+    <section id="glance" aria-labelledby="glance-h">
+      <h2 id="glance-h">At a glance</h2>
+      {glance_tiles}
+      {milestones_html()}
+      <a class="more-link" href="/resume/#pathway">Full career pathway</a>
+    </section>
+
     <section id="news">
       <h2>News</h2>
       <ul class="news" id="news-list">{items}</ul>
@@ -254,21 +271,8 @@ def build_home(news, pubs, code):
 
     <section id="research-themes">
       <h2>Research</h2>
-      <div class="themes">
-        <div class="theme">
-          <div class="theme-fig"><div class="pd-pair">{svg("pd.svg")}<p class="pd-key"><i style="background:#2f6fd0;border-radius:50%"></i>components (H₀)<br><i style="background:#c8374a;transform:rotate(45deg)"></i>loops (H₁)<br><br>Points far from the diagonal are features that persist across scales.</p></div></div>
-          <div><h3>Topological deep learning</h3><p>Networks that reason over shape as well as signal: persistence-based pseudo-labels, optimal transport between persistence diagrams, and message passing on hypergraphs and cell complexes. This includes a widely read review of the field and the TopoX software suite.</p></div>
-        </div>
-        <div class="theme">
-          <div class="theme-fig">{svg("spec.svg")}</div>
-          <div><h3>Hyperspectral and multimodal sensing</h3><p>Hundreds of narrow bands reveal what RGB cannot: protein content in chickpea flour, contamination in meat, early disease in sugarcane and herbicide resistance in ryegrass. I work on weak-signal unmixing, spectral 3D vision and fusion with lidar and point clouds.</p></div>
-        </div>
-        <div class="theme">
-          <div class="theme-fig"><img src="/assets/img/anomaly-masks.jpg" alt="Anomaly segmentation results on a bottle and a transistor: input image, ground truth, anomaly heat map, threshold baseline, TTT4AS and TopoTTA. TopoTTA's masks are closest to the ground truth." loading="lazy" width="981" height="412"></div>
-          <div><h3>Reliable AI under real conditions</h3><p>Test-time adaptation and out-of-distribution robustness for models deployed where the data moves: industrial anomaly segmentation, radar perception, motor fault diagnosis and embryo assessment for IVF.</p></div>
-        </div>
-      </div>
-      <a class="more-link" href="/research/">See all research projects</a>
+      {theme_teasers()}
+      <a class="more-link" href="/research/#applications">Applications in agriculture, health, energy and IoT</a>
     </section>
 
     <section id="featured">
@@ -289,55 +293,6 @@ def build_home(news, pubs, code):
       <a class="more-link" href="/code/">All code</a> &nbsp; <a class="more-link" href="https://github.com/alizia369">github.com/alizia369</a>
     </section>"""
     write("/", "About", "Ali Zia is a machine learning researcher at La Trobe University working on topological deep learning, hyperspectral imaging and reliable AI for agriculture, health and industry.", body)
-
-
-# ---------------------------------------------------------------- research
-def build_research(projects, earlier):
-    cards = []
-    for p in projects:
-        refs = "".join(f'<li>{"<a href=\"" + esc(r["url"]) + "\">" + esc(r["label"]) + "</a>" if r["url"] else esc(r["label"])}</li>'
-                       for r in p.get("papers", []))
-        video = f' <a href="/{esc(p["video"])}">Watch a clip</a>.' if p.get("video") else ""
-        partners = f'<p class="partners">{esc(p["partners"])}</p>' if p.get("partners") else ""
-        cards.append(f'<article class="project"><img src="/assets/img/projects/{esc(p["image"])}" alt="{esc(p["alt"])}" loading="lazy">'
-                     f'<h3>{esc(p["title"])}</h3>{partners}<p>{esc(p["text"])}{video}</p>'
-                     f'{"<ul class=\"refs\">" + refs + "</ul>" if refs else ""}</article>')
-    earlier_html = "".join(f"<li>{esc(e)}</li>" for e in earlier)
-    body = f"""
-    <section aria-labelledby="t">
-      <h1 class="page-title" id="t">Research</h1>
-      <p class="intro-text">My work asks how to give learning systems structure they can trust: the shape of the data, the physics of the sensor and the relationships between modalities. Most of it is done with partners in agriculture, food, health and industry.</p>
-    </section>
-
-    <section aria-labelledby="themes-h">
-      <h2 id="themes-h">Themes</h2>
-      <div class="themes">
-        <div class="theme">
-          <div class="theme-fig"><img src="/assets/img/projects/tdl-pipeline.jpg" alt="Diagram of topological deep learning: topological embedding, representation and loss during training, and topological analysis after training" loading="lazy"></div>
-          <div><h3>Topological deep learning</h3>
-            <p>Topology describes what stays the same when data is stretched or corrupted: connected parts, loops and voids. I use persistent homology to turn anomaly maps into reliable pseudo-labels (TopoTTA, TPAMI 2026), optimal transport to compare persistence diagrams across scales (TopoOT, NeurIPS 2026), and hypergraphs and cell complexes to model relations between sensors and views in radar and fault diagnosis.</p>
-            <p>I co-wrote a <a href="https://link.springer.com/article/10.1007/s10462-024-10710-9">review of topological deep learning</a>, contributed to <a href="https://www.jmlr.org/papers/v25/24-0110.html">TopoX</a>, and am teaching a tutorial on the topic at ACML 2026.</p></div>
-        </div>
-        <div class="theme">
-          <div class="theme-fig"><img src="/assets/img/hero-cube.webp" alt="A field image of grazing cattle with detection boxes and pose keypoints, drawn as the front face of a hyperspectral cube whose layers are tinted from violet to near-infrared grey" loading="lazy"></div>
-          <div><h3>Hyperspectral and multimodal sensing</h3>
-            <p>A hyperspectral camera records hundreds of narrow bands, so each pixel carries a spectrum rather than three colours. My PhD used these spectra for 3D vision, recovering depth from chromatic aberration and defocus. Since then I have worked on weak-signal unmixing for contamination in meat, protein prediction in chickpea, disease detection in sugarcane and herbicide resistance in ryegrass, and on fusing spectral data with lidar and point clouds.</p></div>
-        </div>
-        <div class="theme">
-          <div class="theme-fig"><img src="/assets/img/anomaly-masks.jpg" alt="Anomaly segmentation results: input, ground truth, heat map, threshold baseline, TTT4AS and TopoTTA" loading="lazy"></div>
-          <div><h3>Reliable AI under real conditions</h3>
-            <p>Models trained in the lab meet new lighting, sensors and populations in deployment. I work on test-time adaptation that needs no source data or labels, on diagnosing out-of-distribution robustness from representation geometry, and on decision support where errors are costly, such as embryo assessment for IVF.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="proj-h">
-      <h2 id="proj-h">Research projects</h2>
-      <div class="projects">{''.join(cards)}</div>
-      <h3 class="block-title" style="margin-top:36px">Earlier projects</h3>
-      <ul class="plain measure">{earlier_html}</ul>
-    </section>"""
-    write("/research/", "Research", "Research themes and projects of Ali Zia: topological deep learning, hyperspectral imaging and reliable AI.", body)
 
 
 # ---------------------------------------------------------------- publications
@@ -402,12 +357,7 @@ def build_teaching():
     <section aria-labelledby="t">
       <h1 class="page-title" id="t">Teaching and supervision</h1>
       <p class="intro-text">More than a decade of teaching in Australia and Pakistan, from first-year programming to graduate courses in AI and computer vision, alongside supervision of research students in machine learning and imaging.</p>
-      <div class="stats">
-        <div class="stat"><b>10+</b><span>years of teaching</span></div>
-        <div class="stat"><b>39+</b><span>students supervised</span></div>
-        <div class="stat"><b>15+</b><span>courses taught or designed</span></div>
-        <div class="stat"><b>4</b><span>universities in two countries</span></div>
-      </div>
+      """ + tiles([fixed_tile("offerings"), fixed_tile("courses"), fixed_tile("students"), fixed_tile("years")], 4, "Teaching in numbers") + """
     </section>
 
     <section aria-labelledby="courses-h">
@@ -480,6 +430,12 @@ def build_resume():
       <div class="downloads"><a class="primary" href="/assets/cv/Ali_Zia_CV_short.pdf">Short resume (PDF)</a><a href="/assets/cv/Ali_Zia_CV_detailed.pdf">Detailed resume (PDF)</a></div>
     </section>
 
+    <section class="career-path" id="pathway" aria-labelledby="path-h">
+      <h2 id="path-h">Career pathway</h2>
+      <p class="intro-text">Several roles ran in parallel, and research has come with teaching at every stage. Dates and details are in the lists below.</p>
+      """ + career_flow() + """
+    </section>
+
     <section>
       <div class="two">
         <div>
@@ -516,7 +472,7 @@ def build_resume():
     write("/resume/", "Resume", "Resume of Ali Zia: positions, education, service and downloadable CVs.", body)
 
 
-# ---------------------------------------------------------------- career
+# ---------------------------------------------------------------- shared components (career, tiles, evidence)
 CAT_LABEL = {"edu": "Education", "ind": "Industry", "acad": "Academic and teaching", "res": "Industry and academic research"}
 
 
@@ -558,77 +514,164 @@ def career_node(n):
             f'<span class="badges">{badges}</span>{now}<span class="r">{role}</span><span class="o">{esc(n["org"])}</span>{extra}</li>')
 
 
-def area_cards(areas, pubs):
-    cards = []
-    for a in areas:
-        items = []
-        for it in a["items"]:
-            tags = "".join(venue_tag(find_pub(pubs, pre)) for pre in it["papers"])
-            items.append(f'<li><span class="it">{esc(it["t"])}</span><span class="vts">{tags}</span></li>')
-        cards.append(f'<article class="area" style="--a:var(--c-{a["color"]})"><h3><span class="area-ic">{icon(a["icon"])}</span>{esc(a["title"])}</h3>'
-                     f'<ul class="area-items">{"".join(items)}</ul></article>')
-    return f'<div class="areas">{"".join(cards)}</div>'
-
-
-def stat_tile(value, label, detail, decimals=0, prefix="", suffix=""):
+def tile(value, label, detail, decimals=0, prefix="", suffix=""):
     shown = f"{prefix}{value:,.{decimals}f}{suffix}"
-    return (f'<div class="stat"><b><span aria-hidden="true" data-count="{value}" data-decimals="{decimals}" data-prefix="{esc(prefix)}" '
+    return (f'<div class="tile"><b><span aria-hidden="true" data-count="{value}" data-decimals="{decimals}" data-prefix="{esc(prefix)}" '
             f'data-suffix="{esc(suffix)}">{esc(shown)}</span><span class="sr">{esc(shown)}</span></b>'
-            f'<span>{esc(label)}</span><span class="d">{esc(detail)}</span></div>')
+            f'<span class="l">{esc(label)}</span><span class="d">{esc(detail)}</span></div>')
 
 
-def build_career(ov, pubs):
+def tiles(items, cols, label):
+    return f'<div class="tiles t{cols}" role="group" aria-label="{esc(label)}">{"".join(items)}</div>'
+
+
+def fixed_tile(key):
+    s = OV["stats"][key]
+    return tile(s["value"], s["label"], s["detail"], s.get("decimals", 0), s.get("prefix", ""), s.get("suffix", ""))
+
+
+def counts(pubs, code):
     n_journal = sum(p["type"] == "journal" for p in pubs)
     n_conf = sum(p["type"] in ("conference", "workshop") for p in pubs)
-    st = ov["stats"]
-    stats = "".join([
-        stat_tile(len(pubs), "publications", f"{n_journal} journal articles, {n_conf} conference and workshop papers, {len(pubs) - n_journal - n_conf} preprints and other works"),
-        stat_tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} on Google Scholar, {scholar_date()}"),
-        stat_tile(st["funding"]["value"], st["funding"]["label"], st["funding"]["detail"], st["funding"].get("decimals", 0),
-                  st["funding"].get("prefix", ""), st["funding"].get("suffix", "")),
-        stat_tile(st["students"]["value"], st["students"]["label"], st["students"]["detail"], 0, "", st["students"].get("suffix", "")),
-    ])
+    n_repos = sum(len(g["items"]) for g in code["groups"])
+    return n_journal, n_conf, n_repos
 
-    car = ov["career"]
+
+def legend_html():
+    return "".join(f'<li><span class="badge" data-cat="{k}">{icon(k)}</span>{v}</li>' for k, v in
+                   (("edu", "Education"), ("ind", "Industry"), ("acad", "Academic and teaching"), ("res", "Research with industry")))
+
+
+def career_flow():
+    car = OV["career"]
     ids = {n["id"] for n in car["nodes"]}
     for e in car["edges"]:
         if e[0] not in ids or e[1] not in ids:
             raise SystemExit(f"data/overview.json: career edge {e} names an unknown node")
     band1 = "".join(career_node(n) for n in car["nodes"] if n["band"] == 1)
     band2 = "".join(career_node(n) for n in car["nodes"] if n["band"] == 2)
-    legend = "".join(f'<li><span class="badge" data-cat="{k}">{icon(k)}</span>{v}</li>' for k, v in
-                     (("edu", "Education"), ("ind", "Industry"), ("acad", "Academic and teaching"), ("res", "Research with industry")))
-
-    body = f"""
-    <section aria-labelledby="t">
-      <h1 class="page-title" id="t">Career at a glance</h1>
-      <p class="intro-text">From software engineering to research leadership in machine learning, with teaching alongside research at every stage. The figures below update from the publications list and Google Scholar.</p>
-      <div class="stats">{stats}</div>
-    </section>
-
-    <section class="career-path" aria-labelledby="path-h">
-      <h2 id="path-h">Career pathway</h2>
-      <ul class="legend" aria-label="Key">{legend}</ul>
+    return f"""<ul class="legend" aria-label="Key">{legend_html()}</ul>
       <div class="flow" data-flow data-edges="{esc(json.dumps(car["edges"]))}">
         <svg class="flow-lines" aria-hidden="true" focusable="false"></svg>
         <ol class="band band1" aria-label="Early career">{band1}</ol>
         <p class="par-label">{esc(car["parallel_label"])}</p>
         <ol class="band band2" aria-label="Griffith, postdoctoral and current roles">{band2}</ol>
-      </div>
+      </div>"""
+
+
+def milestones_html():
+    lis = []
+    for i, m in enumerate(OV["milestones"]):
+        now = '<span class="sr">(current role)</span>' if m.get("current") else ""
+        lis.append(f'<li data-cat="{m["cat"]}"{" class=\"current\"" if m.get("current") else ""} style="--i:{i}">'
+                   f'<span class="badge">{icon(m["cat"])}<span class="sr">{CAT_LABEL[m["cat"]]}</span></span>'
+                   f'<span class="r">{esc(m["role"])}{now}</span><span class="o">{esc(m["org"])}</span></li>')
+    return f'<div class="mini-path" data-reveal><ol class="milestones" aria-label="Career milestones">{"".join(lis)}</ol></div>'
+
+
+def evidence(items, pubs):
+    lis = []
+    for it in items:
+        tags = "".join(venue_tag(find_pub(pubs, pre)) for pre in it["papers"])
+        lis.append(f'<li><span class="it">{esc(it["t"])}</span><span class="vts">{tags}</span></li>')
+    return f'<p class="ev-h">Key papers</p><ul class="ev">{"".join(lis)}</ul>'
+
+
+def card_head(title, icon_name, level="h3"):
+    return f'<div class="card-head"><span class="area-ic">{icon(icon_name)}</span><{level}>{esc(title)}</{level}></div>'
+
+
+def project_card(p):
+    refs = "".join(f'<li>{"<a href=\"" + esc(r["url"]) + "\">" + esc(r["label"]) + "</a>" if r["url"] else esc(r["label"])}</li>'
+                   for r in p.get("papers", []))
+    video = f' <a href="/{esc(p["video"])}">Watch a clip</a>.' if p.get("video") else ""
+    partners = f'<p class="partners">{esc(p["partners"])}</p>' if p.get("partners") else ""
+    return (f'<article class="project"><img src="/assets/img/projects/{esc(p["image"])}" alt="{esc(p["alt"])}" loading="lazy">'
+            f'<h4>{esc(p["title"])}</h4>{partners}<p>{esc(p["text"])}{video}</p>'
+            f'{"<ul class=\"refs\">" + refs + "</ul>" if refs else ""}</article>')
+
+
+# Figure and prose for each research theme on the Research page; the evidence lists come from data/overview.json
+THEME_COPY = {
+    "topology": ('<img src="/assets/img/projects/tdl-pipeline.jpg" alt="Diagram of topological deep learning: topological embedding, representation and loss during training, and topological analysis after training" loading="lazy">',
+                 '<p>Topology describes what stays the same when data is stretched or corrupted: connected parts, loops and voids. I use persistent homology to turn anomaly maps into reliable pseudo-labels, optimal transport to compare persistence diagrams across scales, and hypergraphs and cell complexes to model relations between sensors and views in radar and fault diagnosis.</p>'
+                 '<p>I co-wrote a <a href="https://link.springer.com/article/10.1007/s10462-024-10710-9">review of topological deep learning</a>, contributed to <a href="https://www.jmlr.org/papers/v25/24-0110.html">TopoX</a>, and am teaching a tutorial on the topic at ACML 2026.</p>'),
+    "hyperspectral": ('<img src="/assets/img/hero-cube.webp" alt="A field image of grazing cattle with detection boxes and pose keypoints, drawn as the front face of a hyperspectral cube whose layers are tinted from violet to near-infrared grey" loading="lazy">',
+                      '<p>A hyperspectral camera records hundreds of narrow bands, so each pixel carries a spectrum rather than three colours. My PhD used these spectra for 3D vision, recovering depth from chromatic aberration and defocus. Since then I have worked on weak-signal unmixing, spectral features for food and crops, and on fusing spectral data with lidar, point clouds and radar.</p>'),
+    "reliable": ('<img src="/assets/img/anomaly-masks.jpg" alt="Anomaly segmentation results: input, ground truth, heat map, threshold baseline, TTT4AS and TopoTTA" loading="lazy" width="981" height="412">',
+                 '<p>Models trained in the lab meet new lighting, sensors and populations in deployment. I work on test-time adaptation that needs no source data or labels, on diagnosing out-of-distribution robustness from representation geometry, on training-free reasoning with vision–language models, and on learning when labels are scarce.</p>'),
+}
+
+THEME_TEASER = {
+    "topology": "Persistent homology, optimal transport between persistence diagrams and message passing on hypergraphs and cell complexes, with a widely read review of the field and the TopoX library.",
+    "hyperspectral": "Hundreds of narrow bands reveal what RGB cannot: protein in chickpea, contamination in meat, disease in sugarcane. Weak-signal unmixing, spectral 3D vision and fusion with lidar and radar.",
+    "reliable": "Test-time adaptation and out-of-distribution robustness for models deployed where data shifts: industrial inspection, radar, fault diagnosis and embryo assessment for IVF.",
+}
+
+
+def theme_teasers():
+    cards = "".join(f'<a class="teaser" href="/research/#{t["id"]}" style="--a:var(--c-{t["color"]})">{card_head(t["title"], t["icon"])}'
+                    f'<p>{esc(THEME_TEASER[t["id"]])}</p><span class="go">Themes, papers and projects</span></a>' for t in OV["themes"])
+    return f'<div class="teasers">{cards}</div>'
+
+
+def build_research(projects, earlier, pubs, code):
+    n_journal, n_conf, n_repos = counts(pubs, code)
+    stats = tiles([
+        tile(n_journal, "journal articles", "Including IEEE TPAMI, IEEE TIP, JMLR and Artificial Intelligence Review"),
+        tile(n_conf, "conference and workshop papers", "Including NeurIPS, ECCV, WACV and CVPR workshops"),
+        tile(SCHOLAR.get("h_index", 0), "h-index", f"i10-index {SCHOLAR.get('i10_index', 0)} and {SCHOLAR.get('citations', 0):,} citations on Google Scholar, {scholar_date()}"),
+        tile(n_repos, "open-source repositories", "Research code for papers, from PyTorch to the original MATLAB"),
+    ], 4, "Research in numbers")
+
+    themes = []
+    for t in OV["themes"]:
+        fig, prose = THEME_COPY[t["id"]]
+        themes.append(f'<article class="theme-card" id="{t["id"]}" style="--a:var(--c-{t["color"]})">{card_head(t["title"], t["icon"])}'
+                      f'<div class="theme-body"><div class="theme-fig">{fig}</div><div class="theme-text">{prose}</div></div>'
+                      f'{evidence(t["items"], pubs)}</article>')
+
+    by_domain = {}
+    for p in projects:
+        by_domain.setdefault(p.get("domain", "other"), []).append(p)
+    known = {a["id"] for a in OV["applications"]} | {"other"}
+    for d in by_domain:
+        if d not in known:
+            raise SystemExit(f"data/projects.json: unknown domain {d!r}")
+    domains = []
+    for a in OV["applications"]:
+        projs = by_domain.get(a["id"], [])
+        proj_html = (f'<p class="ev-h">Projects</p><div class="projects">{"".join(project_card(p) for p in projs)}</div>' if projs else "")
+        domains.append(f'<article class="domain" id="{a["id"]}" style="--a:var(--c-{a["color"]})">{card_head(a["title"], a["icon"])}'
+                       f'{evidence(a["items"], pubs)}{proj_html}</article>')
+    others = by_domain.get("other", [])
+    other_html = (f'<h3 class="block-title" style="margin-top:40px">Other projects</h3><div class="projects">{"".join(project_card(p) for p in others)}</div>'
+                  if others else "")
+    earlier_html = "".join(f"<li>{esc(e)}</li>" for e in earlier)
+
+    body = f"""
+    <section aria-labelledby="t">
+      <h1 class="page-title" id="t">Research</h1>
+      <p class="intro-text">My work asks how to give learning systems structure they can trust: the shape of the data, the physics of the sensor and the relationships between modalities. It runs along three themes and is applied with partners in agriculture, food, health, energy and industry.</p>
+      {stats}
+      <nav class="jump" aria-label="On this page">{"".join(f'<a href="#{t["id"]}">{esc(t["title"])}</a>' for t in OV["themes"])}<a href="#applications">Applications</a></nav>
     </section>
 
-    <section aria-labelledby="focus-h">
-      <h2 id="focus-h">Research focus</h2>
-      <p class="intro-text">Four connected areas. Each tag opens the paper behind it.</p>
-      {area_cards(ov["focus"], pubs)}
+    <section aria-labelledby="themes-h">
+      <h2 id="themes-h">Research themes</h2>
+      <p class="intro-text">Each tag opens the paper behind it on the Publications page.</p>
+      {"".join(themes)}
     </section>
 
-    <section aria-labelledby="apps-h">
-      <h2 id="apps-h">Selected applications</h2>
-      <p class="intro-text">Where these methods have been applied, again with the supporting papers.</p>
-      {area_cards(ov["applications"], pubs)}
+    <section id="applications" aria-labelledby="apps-h">
+      <h2 id="apps-h">Applications</h2>
+      <p class="intro-text">Where these methods are put to work, with the papers and projects in each area.</p>
+      {"".join(domains)}
+      {other_html}
+      <h3 class="block-title" style="margin-top:36px">Earlier projects</h3>
+      <ul class="plain measure">{earlier_html}</ul>
     </section>"""
-    write("/career/", "Career at a glance", "Career pathway, research focus and applications of Ali Zia, with links to the supporting publications.", body)
+    write("/research/", "Research", "Research themes and applications of Ali Zia: topological deep learning, hyperspectral and multimodal sensing, and reliable AI, applied to agriculture, health, energy and IoT security.", body)
 
 
 if __name__ == "__main__":
@@ -638,10 +681,9 @@ if __name__ == "__main__":
     code = data("code.json")
     build_home(news, pubs, code)
     build_code(code)
-    build_research(projects["items"], projects.get("earlier", []))
+    build_research(projects["items"], projects.get("earlier", []), pubs, code)
     build_publications(pubs)
     build_teaching()
     build_grants(data("grants.json"))
     build_resume()
-    build_career(data("overview.json"), pubs)
     redirect("/cv/", "/resume/")

@@ -52,6 +52,13 @@
     });
   });
 
+  // Home career strip: line and milestones reveal once when scrolled into view
+  Array.prototype.forEach.call(document.querySelectorAll('[data-reveal]'), function (el) {
+    if (reduceMotion || !canObserve) return;
+    el.classList.add('pre');
+    onceVisible(el, 0.4, function () { el.classList.remove('pre'); el.classList.add('in'); });
+  });
+
   // Career pathway: connectors drawn between the cards, drawing themselves in once
   var flow = document.querySelector('[data-flow]');
   if (flow) {

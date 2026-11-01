@@ -1,75 +1,462 @@
 {
-  "_note": "Content for the Career page (/career/). Career nodes are listed in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow. cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. Each focus or application item lists the start of one or more publication titles from publications.json; the build links each one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Publication and citation counts come from publications.json and scholar.json automatically.",
-  "career": {
-    "nodes": [
-      {"id": "bsc", "cat": "edu", "band": 1, "col": 1, "role": "B.Sc. (Hons) Computer Science", "org": "University of the Punjab"},
-      {"id": "se", "cat": "ind", "band": 1, "col": 2, "role": "Software Engineer", "org": "Systems Ltd, CambridgeDocs and Techlogix, Pakistan"},
-      {"id": "ms", "cat": "edu", "band": 1, "col": 3, "role": "Master's in Computing", "org": "Australian National University"},
-      {"id": "nicta", "cat": "res", "band": 1, "col": 4, "role": "Research Scholar", "org": "NICTA Neville Roach Lab"},
-      {"id": "comsats", "cat": "acad", "band": 1, "col": 5, "role": "Assistant Professor", "org": "COMSATS University, Pakistan"},
-      {"id": "lecturer", "cat": "acad", "band": 2, "col": 1, "row": 1, "parallel": true, "role": "Lecturer, Lab Instructor and Student Coach", "brief": "Lecturer and lab instructor", "org": "Griffith University"},
-      {"id": "phd", "cat": "edu", "band": 2, "col": 1, "row": 2, "parallel": true, "role": "PhD (Artificial Intelligence)", "brief": "PhD (AI)", "org": "Griffith University"},
-      {"id": "programmer", "cat": "ind", "band": 2, "col": 1, "row": 3, "parallel": true, "role": "Programmer / Developer", "brief": "Programmer", "org": "Griffith Online Team"},
-      {"id": "arc", "cat": "res", "band": 2, "col": 2, "row": 3, "teach": true, "role": "Postdoctoral Research Fellow", "org": "ARC Research Hub for Driving Farming Productivity and Disease Prevention, Griffith"},
-      {"id": "anu", "cat": "res", "band": 2, "col": 2, "row": 1, "teach": true, "role": "Postdoctoral Research Fellow", "org": "MLAI Future Science Platform, ANU and CSIRO"},
-      {"id": "latrobe", "cat": "res", "band": 2, "col": 3, "row": 1, "teach": true, "current": true, "role": "Research Fellow", "org": "La Trobe University", "extra": "Adjunct at CSIRO and ANU"}
-    ],
-    "edges": [
-      ["bsc", "se"], ["se", "ms"], ["ms", "nicta"], ["nicta", "comsats"],
-      ["comsats", "lecturer", "wrap"], ["comsats", "phd", "wrap"], ["comsats", "programmer", "wrap"],
-      ["lecturer", "anu"], ["phd", "arc"], ["programmer", "arc"],
-      ["arc", "anu", "up"], ["anu", "latrobe"]
-    ],
-    "parallel_label": "In parallel at Griffith University"
+ "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed). themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json.",
+ "stats": {
+  "funding": {
+   "value": 1.3,
+   "decimals": 1,
+   "prefix": "$",
+   "suffix": "M+",
+   "label": "AUD in competitive funding",
+   "detail": "CSIRO, the CSIRO–CAS partnership and La Trobe"
   },
-  "stats": {
-    "funding": {"value": 1.3, "decimals": 1, "prefix": "$", "suffix": "M+", "label": "AUD in competitive funding", "detail": "CSIRO, the CSIRO–CAS partnership and La Trobe"},
-    "students": {"value": 39, "suffix": "+", "label": "students supervised", "detail": "6 postgraduate and 33 honours to completion, plus 4 current PhDs"}
+  "offerings": {
+   "value": 60,
+   "suffix": "+",
+   "label": "course offerings taught",
+   "detail": "20+ in Australia and 40+ overseas; average student rating above 4/5"
   },
-  "focus": [
-    {"title": "Higher-Order Representation Learning", "icon": "hol", "color": "violet", "items": [
-      {"t": "Persistent homology", "papers": ["Learning Topology-Aware Representations via Test-Time"]},
-      {"t": "Topology-aware optimal transport", "papers": ["Topology-Aware Optimal Transport"]},
-      {"t": "Topological deep learning and TopoX", "papers": ["Topological Deep Learning: A Review", "TopoX"]},
-      {"t": "Hypergraphs and cell complexes", "papers": ["Hypergraph Contrastive Sensor Fusion", "ICML 2023 Topological Deep Learning Challenge"]}
-    ]},
-    {"title": "Hyperspectral Computer Vision", "icon": "hsi", "color": "teal", "items": [
-      {"t": "Spectral–spatial feature extraction", "papers": ["Spectral-Spatial Scale Invariant"]},
-      {"t": "3D reconstruction and depth estimation", "papers": ["Exploring Chromatic Aberration", "3D Reconstruction from Hyperspectral"]},
-      {"t": "Weak-signal hyperspectral unmixing", "papers": ["A New Hyperspectral Unmixing Benchmark"]},
-      {"t": "Weakly supervised pixel classification", "papers": ["Weakly Supervised Pixel-Wise"]}
-    ]},
-    {"title": "Multimodal Data Fusion", "icon": "fusion", "color": "indigo", "items": [
-      {"t": "Multi-view radar segmentation", "papers": ["Learning Structurally Consistent", "HyperEcho"]},
-      {"t": "2D–3D feature fusion", "papers": ["2D–3D Feature Fusion"]},
-      {"t": "Point cloud learning", "papers": ["Multiscale Representations Learning Transformer", "Hierarchical Spatial Mamba"]},
-      {"t": "Multimodal sensor fusion", "papers": ["Hypergraph Contrastive Sensor Fusion"]}
-    ]},
-    {"title": "Foundation Models", "icon": "found", "color": "amber", "items": [
-      {"t": "Student–teacher semi-supervised learning", "papers": ["Collaborative Static-Dynamic Teaching"]},
-      {"t": "Training-free vision–language reasoning", "papers": ["Geometry-Aware Semantic Reasoning"]}
-    ]}
+  "courses": {
+   "value": 15,
+   "suffix": "+",
+   "label": "distinct courses taught or designed",
+   "detail": "From first-year programming to graduate AI and computer vision"
+  },
+  "students": {
+   "value": 39,
+   "suffix": "+",
+   "label": "students supervised",
+   "detail": "6 postgraduate and 33 honours to completion, plus 4 current PhDs"
+  },
+  "years": {
+   "value": 10,
+   "suffix": "+",
+   "label": "years of teaching",
+   "detail": "La Trobe, Griffith, ANU and COMSATS"
+  }
+ },
+ "milestones": [
+  {
+   "cat": "edu",
+   "role": "B.Sc. (Hons)",
+   "org": "University of the Punjab"
+  },
+  {
+   "cat": "ind",
+   "role": "Software engineer",
+   "org": "Industry, Pakistan"
+  },
+  {
+   "cat": "edu",
+   "role": "Master's in Computing",
+   "org": "ANU"
+  },
+  {
+   "cat": "acad",
+   "role": "Assistant Professor",
+   "org": "COMSATS University"
+  },
+  {
+   "cat": "edu",
+   "role": "PhD, teaching and development",
+   "org": "Griffith University"
+  },
+  {
+   "cat": "res",
+   "role": "Postdoctoral Fellow",
+   "org": "Griffith, then ANU and CSIRO"
+  },
+  {
+   "cat": "res",
+   "role": "Research Fellow",
+   "org": "La Trobe University",
+   "current": true
+  }
+ ],
+ "career": {
+  "nodes": [
+   {
+    "id": "bsc",
+    "cat": "edu",
+    "band": 1,
+    "col": 1,
+    "role": "B.Sc. (Hons) Computer Science",
+    "org": "University of the Punjab"
+   },
+   {
+    "id": "se",
+    "cat": "ind",
+    "band": 1,
+    "col": 2,
+    "role": "Software Engineer",
+    "org": "Systems Ltd, CambridgeDocs and Techlogix, Pakistan"
+   },
+   {
+    "id": "ms",
+    "cat": "edu",
+    "band": 1,
+    "col": 3,
+    "role": "Master's in Computing",
+    "org": "Australian National University"
+   },
+   {
+    "id": "nicta",
+    "cat": "res",
+    "band": 1,
+    "col": 4,
+    "role": "Research Scholar",
+    "org": "NICTA Neville Roach Lab"
+   },
+   {
+    "id": "comsats",
+    "cat": "acad",
+    "band": 1,
+    "col": 5,
+    "role": "Assistant Professor",
+    "org": "COMSATS University, Pakistan"
+   },
+   {
+    "id": "lecturer",
+    "cat": "acad",
+    "band": 2,
+    "col": 1,
+    "row": 1,
+    "parallel": true,
+    "role": "Lecturer, Lab Instructor and Student Coach",
+    "brief": "Lecturer and lab instructor",
+    "org": "Griffith University"
+   },
+   {
+    "id": "phd",
+    "cat": "edu",
+    "band": 2,
+    "col": 1,
+    "row": 2,
+    "parallel": true,
+    "role": "PhD (Artificial Intelligence)",
+    "brief": "PhD (AI)",
+    "org": "Griffith University"
+   },
+   {
+    "id": "programmer",
+    "cat": "ind",
+    "band": 2,
+    "col": 1,
+    "row": 3,
+    "parallel": true,
+    "role": "Programmer / Developer",
+    "brief": "Programmer",
+    "org": "Griffith Online Team"
+   },
+   {
+    "id": "arc",
+    "cat": "res",
+    "band": 2,
+    "col": 2,
+    "row": 3,
+    "teach": true,
+    "role": "Postdoctoral Research Fellow",
+    "org": "ARC Research Hub for Driving Farming Productivity and Disease Prevention, Griffith"
+   },
+   {
+    "id": "anu",
+    "cat": "res",
+    "band": 2,
+    "col": 2,
+    "row": 1,
+    "teach": true,
+    "role": "Postdoctoral Research Fellow",
+    "org": "MLAI Future Science Platform, ANU and CSIRO"
+   },
+   {
+    "id": "latrobe",
+    "cat": "res",
+    "band": 2,
+    "col": 3,
+    "row": 1,
+    "teach": true,
+    "current": true,
+    "role": "Research Fellow",
+    "org": "La Trobe University",
+    "extra": "Adjunct at CSIRO and ANU"
+   }
   ],
-  "applications": [
-    {"title": "Agriculture and Food", "icon": "agri", "color": "green", "items": [
-      {"t": "Crop disease detection", "papers": ["Early Detection of Sugarcane Smut", "Determining Mosaic Resilience"]},
-      {"t": "Biomass estimation", "papers": ["BioNet and NeFF", "MMCBE"]},
-      {"t": "Livestock behaviour recognition", "papers": ["CVB: A Video Dataset", "A Review on Vision-Centric"]},
-      {"t": "Food quality and contamination", "papers": ["Unlocking Chickpea Flour", "A New Hyperspectral Unmixing Benchmark"]}
-    ]},
-    {"title": "Healthcare", "icon": "health", "color": "rose", "items": [
-      {"t": "Mental-state-aware brain–computer interface", "papers": ["A Mental State Aware"]},
-      {"t": "IVF embryo (blastocyst) assessment", "papers": ["Expert Fusion Network"]},
-      {"t": "Retinal fundus image enhancement", "papers": ["Multi-Scale Target-Aware"]}
-    ]},
-    {"title": "Energy Optimisation", "icon": "energy", "color": "amber", "items": [
-      {"t": "Microgrid energy management", "papers": ["Short-Term Load Forecasting", "Microgrid Energy Management System"]},
-      {"t": "Short-term load forecasting for smart grids", "papers": ["Short-Term Load Forecasting"]},
-      {"t": "Battery storage scheduling", "papers": ["Microgrid Energy Management System"]}
-    ]},
-    {"title": "Cybersecurity and IoT", "icon": "security", "color": "indigo", "items": [
-      {"t": "IoT device fingerprinting", "papers": ["A Comparative Analysis of IoT", "An Improved IoT Device"]},
-      {"t": "Blockchain-enabled IoT edge computing", "papers": ["Deadline-Aware Workload"]}
-    ]}
-  ]
+  "edges": [
+   [
+    "bsc",
+    "se"
+   ],
+   [
+    "se",
+    "ms"
+   ],
+   [
+    "ms",
+    "nicta"
+   ],
+   [
+    "nicta",
+    "comsats"
+   ],
+   [
+    "comsats",
+    "lecturer",
+    "wrap"
+   ],
+   [
+    "comsats",
+    "phd",
+    "wrap"
+   ],
+   [
+    "comsats",
+    "programmer",
+    "wrap"
+   ],
+   [
+    "lecturer",
+    "anu"
+   ],
+   [
+    "phd",
+    "arc"
+   ],
+   [
+    "programmer",
+    "arc"
+   ],
+   [
+    "arc",
+    "anu",
+    "up"
+   ],
+   [
+    "anu",
+    "latrobe"
+   ]
+  ],
+  "parallel_label": "In parallel at Griffith University"
+ },
+ "themes": [
+  {
+   "id": "topology",
+   "title": "Topological deep learning",
+   "icon": "hol",
+   "color": "violet",
+   "items": [
+    {
+     "t": "Persistent homology for anomaly segmentation",
+     "papers": [
+      "Learning Topology-Aware Representations via Test-Time"
+     ]
+    },
+    {
+     "t": "Optimal transport between persistence diagrams",
+     "papers": [
+      "Topology-Aware Optimal Transport"
+     ]
+    },
+    {
+     "t": "Hypergraphs for sensor and radar fusion",
+     "papers": [
+      "Hypergraph Contrastive Sensor Fusion",
+      "HyperEcho"
+     ]
+    },
+    {
+     "t": "Review of the field and the TopoX library",
+     "papers": [
+      "Topological Deep Learning: A Review",
+      "TopoX",
+      "ICML 2023 Topological Deep Learning Challenge"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "hyperspectral",
+   "title": "Hyperspectral and multimodal sensing",
+   "icon": "hsi",
+   "color": "teal",
+   "items": [
+    {
+     "t": "Spectral–spatial feature extraction",
+     "papers": [
+      "Spectral-Spatial Scale Invariant"
+     ]
+    },
+    {
+     "t": "Depth and 3D reconstruction from spectra",
+     "papers": [
+      "Exploring Chromatic Aberration",
+      "3D Reconstruction from Hyperspectral",
+      "3D Plant Modelling via Hyperspectral Imaging"
+     ]
+    },
+    {
+     "t": "Weak-signal unmixing and pixel classification",
+     "papers": [
+      "A New Hyperspectral Unmixing Benchmark",
+      "Weakly Supervised Pixel-Wise"
+     ]
+    },
+    {
+     "t": "Fusion with radar, lidar and point clouds",
+     "papers": [
+      "Learning Structurally Consistent",
+      "2D–3D Feature Fusion",
+      "Multiscale Representations Learning Transformer",
+      "Implicit Spatial-Frequency Fusion"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reliable",
+   "title": "Reliable AI under real conditions",
+   "icon": "reliable",
+   "color": "indigo",
+   "items": [
+    {
+     "t": "Source-free test-time adaptation",
+     "papers": [
+      "Learning Topology-Aware Representations via Test-Time",
+      "Topology-Aware Optimal Transport"
+     ]
+    },
+    {
+     "t": "Robustness from representation geometry",
+     "papers": [
+      "Representation Geometry as a Diagnostic",
+      "TopoGeoScore"
+     ]
+    },
+    {
+     "t": "Training-free vision–language reasoning",
+     "papers": [
+      "Geometry-Aware Semantic Reasoning"
+     ]
+    },
+    {
+     "t": "Learning with few labels",
+     "papers": [
+      "Collaborative Static-Dynamic Teaching",
+      "SSTD: Stripe-Like",
+      "Contrastive-Aware ViT"
+     ]
+    }
+   ]
+  }
+ ],
+ "applications": [
+  {
+   "title": "Agriculture and Food",
+   "icon": "agri",
+   "color": "green",
+   "items": [
+    {
+     "t": "Crop disease detection",
+     "papers": [
+      "Early Detection of Sugarcane Smut",
+      "Determining Mosaic Resilience"
+     ]
+    },
+    {
+     "t": "Biomass estimation",
+     "papers": [
+      "BioNet and NeFF",
+      "MMCBE"
+     ]
+    },
+    {
+     "t": "Livestock behaviour recognition",
+     "papers": [
+      "CVB: A Video Dataset",
+      "A Review on Vision-Centric"
+     ]
+    },
+    {
+     "t": "Food quality and contamination",
+     "papers": [
+      "Unlocking Chickpea Flour",
+      "A New Hyperspectral Unmixing Benchmark"
+     ]
+    }
+   ],
+   "id": "agri"
+  },
+  {
+   "title": "Healthcare",
+   "icon": "health",
+   "color": "rose",
+   "items": [
+    {
+     "t": "Mental-state-aware brain–computer interface",
+     "papers": [
+      "A Mental State Aware"
+     ]
+    },
+    {
+     "t": "IVF embryo (blastocyst) assessment",
+     "papers": [
+      "Expert Fusion Network"
+     ]
+    },
+    {
+     "t": "Retinal fundus image enhancement",
+     "papers": [
+      "Multi-Scale Target-Aware"
+     ]
+    }
+   ],
+   "id": "health"
+  },
+  {
+   "title": "Energy Optimisation",
+   "icon": "energy",
+   "color": "amber",
+   "items": [
+    {
+     "t": "Microgrid energy management",
+     "papers": [
+      "Short-Term Load Forecasting",
+      "Microgrid Energy Management System"
+     ]
+    },
+    {
+     "t": "Short-term load forecasting for smart grids",
+     "papers": [
+      "Short-Term Load Forecasting"
+     ]
+    },
+    {
+     "t": "Battery storage scheduling",
+     "papers": [
+      "Microgrid Energy Management System"
+     ]
+    }
+   ],
+   "id": "energy"
+  },
+  {
+   "title": "Cybersecurity and IoT",
+   "icon": "security",
+   "color": "indigo",
+   "items": [
+    {
+     "t": "IoT device fingerprinting",
+     "papers": [
+      "A Comparative Analysis of IoT",
+      "An Improved IoT Device"
+     ]
+    },
+    {
+     "t": "Blockchain-enabled IoT edge computing",
+     "papers": [
+      "Deadline-Aware Workload"
+     ]
+    }
+   ],
+   "id": "security"
+  }
+ ]
 }
