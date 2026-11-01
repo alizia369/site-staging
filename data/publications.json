@@ -59,6 +59,23 @@
   },
   {
    "year": 2026,
+   "title": "Spectral 3D Computer Vision: A Survey of Acquisition, Representations, Learning, and Applications",
+   "authors": "Y. Sun, A. Zia, V. Rolland, C. Yu, J. Zhou",
+   "venue": "Computer Science Review",
+   "type": "journal",
+   "topics": [
+    "hyperspectral",
+    "3d"
+   ],
+   "links": {
+    "arxiv": "https://arxiv.org/abs/2302.08054"
+   },
+   "selected": true,
+   "short": "Computer Science Review",
+   "note": "Accepted"
+  },
+  {
+   "year": 2026,
    "title": "Expert Fusion Network for Automated Blastocyst Morphology and IVF Decision Support",
    "authors": "A. Zia, S. Qureshi, F. Ansarizadeh, M. Fozan, E. Kamawal, S. Anwer, et al.",
    "venue": "IEEE Journal of Biomedical and Health Informatics",
@@ -650,21 +667,6 @@
     "3d"
    ],
    "links": {},
-   "selected": false
-  },
-  {
-   "year": 2023,
-   "title": "Spectral 3D Computer Vision: A Review",
-   "authors": "Y. Sun, A. Zia, V. Rolland, C. Yu, J. Zhou",
-   "venue": "arXiv preprint",
-   "type": "preprint",
-   "topics": [
-    "hyperspectral",
-    "3d"
-   ],
-   "links": {
-    "arxiv": "https://arxiv.org/abs/2302.08054"
-   },
    "selected": false
   },
   {

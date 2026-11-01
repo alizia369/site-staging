@@ -236,7 +236,7 @@ def build_home(news, pubs, code):
 
     n_journal, n_conf, _ = counts(pubs, code)
     glance_tiles = tiles([
-        tile(len(pubs), "publications", f"{n_journal} journal articles, {n_conf} conference and workshop papers, {len(pubs) - n_journal - n_conf} preprints and other works"),
+        tile(len(pubs), "publications", top_venues_line(pubs)),
         tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} on Google Scholar, {scholar_date()}"),
         fixed_tile("funding"),
         fixed_tile("offerings"),
@@ -528,6 +528,15 @@ def tiles(items, cols, label):
 def fixed_tile(key):
     s = OV["stats"][key]
     return tile(s["value"], s["label"], s["detail"], s.get("decimals", 0), s.get("prefix", ""), s.get("suffix", ""))
+
+
+def top_venues_line(pubs):
+    venues = OV["stats"]["top_venues"]
+    shorts = {p.get("short") for p in pubs}
+    missing = [v for v in venues if v not in shorts]
+    if missing:
+        raise SystemExit(f"data/overview.json: top_venues {missing} match no paper in publications.json")
+    return "Including " + ", ".join(venues[:-1]) + " and " + venues[-1]
 
 
 def counts(pubs, code):
