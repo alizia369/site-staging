@@ -456,6 +456,13 @@
      "alt": "CVB annotation workflow: surveillance video is trimmed into clips, cattle are detected and tracked, and behaviours are annotated in CVAT, with example frames below",
      "caption": "Semi-automatic annotation of cattle behaviour video.",
      "paper": "CVB: A Video Dataset"
+    },
+    {
+     "img": "papers/chickpea-vit.webp",
+     "alt": "A near-infrared spectrum split into K patches that are linearly projected, given positional embeddings and passed through a Transformer encoder to a regression head",
+     "caption": "NIR spectra split into patches for a Vision Transformer that predicts flour composition.",
+     "paper": "Unlocking Chickpea Flour",
+     "credit": "Figure CC BY-NC-ND 4.0"
     }
    ]
   },
@@ -491,6 +498,12 @@
      "caption": "EEG control of a wheelchair, with stress detection that alerts an attendant.",
      "paper": "A Mental State Aware",
      "credit": "Figure CC BY 4.0"
+    },
+    {
+     "img": "papers/embryo-annotation.webp",
+     "alt": "Three blastocyst microscope images with expert annotations of the inner cell mass, trophectoderm and blastocoel, and the corresponding masks",
+     "caption": "Blastocyst images, expert annotations and masks used for grading.",
+     "paper": "Expert Fusion Network"
     },
     {
      "img": "papers/fundus-enhancement.webp",
@@ -531,6 +544,12 @@
      "img": "papers/energy-forecasting.webp",
      "alt": "Forecasting pipeline: historical load and meteorological data are decomposed with a best-basis stationary wavelet packet transform, forecast by parallel HHO-FNN models and reconstructed into a day-ahead load forecast",
      "caption": "Wavelet decomposition and HHO-FNN models for day-ahead load forecasting.",
+     "paper": "Short-Term Load Forecasting"
+    },
+    {
+     "img": "papers/energy-forecast-result.webp",
+     "alt": "Day-ahead load forecast for a summer working day: actual load plotted against the proposed method and three baselines, PSO-ANN, PSO-LSSVM and BPNN",
+     "caption": "Forecast against actual load on a summer working day.",
      "paper": "Short-Term Load Forecasting"
     }
    ]
