@@ -236,8 +236,8 @@ def build_home(news, pubs, code):
 
     n_journal, n_conf, _ = counts(pubs, code)
     glance_tiles = tiles([
-        tile(len(pubs), "publications", top_venues_line(pubs)),
-        tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} on Google Scholar, {scholar_date()}"),
+        tile(len(pubs), "publications", f"{n_journal} journal articles, {n_conf} conference and workshop papers and {len(pubs) - n_journal - n_conf} preprints and other works. {top_venues_line(pubs)}"),
+        tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} and i10-index {SCHOLAR.get('i10_index', 0)} on Google Scholar, {scholar_date()}"),
         fixed_tile("funding"),
         fixed_tile("offerings"),
         fixed_tile("students"),
@@ -586,6 +586,21 @@ def evidence(items, pubs):
     return f'<p class="ev-h">Key papers</p><ul class="ev">{"".join(lis)}</ul>'
 
 
+def gallery(figs, pubs):
+    out = []
+    for f in figs:
+        if f.get("svg"):
+            media = f'<div class="g-media drawn" role="img" aria-label="{esc(f["alt"])}">{svg(f["svg"])}</div>'
+        else:
+            if not (ROOT / "assets" / "img" / f["img"]).exists():
+                raise SystemExit(f"data/overview.json: figure {f['img']} not found in assets/img")
+            media = (f'<a class="g-media" href="/assets/img/{esc(f["img"])}" title="Open full size">'
+                     f'<img src="/assets/img/{esc(f["img"])}" alt="{esc(f["alt"])}" loading="lazy"></a>')
+        tag = " " + venue_tag(find_pub(pubs, f["paper"])) if f.get("paper") else ""
+        out.append(f'<figure class="g-item">{media}<figcaption>{esc(f["caption"])}{tag}</figcaption></figure>')
+    return f'<p class="ev-h">From the papers</p><div class="gallery">{"".join(out)}</div>'
+
+
 def card_head(title, icon_name, level="h3"):
     return f'<div class="card-head"><span class="area-ic">{icon(icon_name)}</span><{level}>{esc(title)}</{level}></div>'
 
@@ -638,7 +653,7 @@ def build_research(projects, earlier, pubs, code):
         fig, prose = THEME_COPY[t["id"]]
         themes.append(f'<article class="theme-card" id="{t["id"]}" style="--a:var(--c-{t["color"]})">{card_head(t["title"], t["icon"])}'
                       f'<div class="theme-body"><div class="theme-fig">{fig}</div><div class="theme-text">{prose}</div></div>'
-                      f'{evidence(t["items"], pubs)}</article>')
+                      f'{gallery(t.get("figures", []), pubs) if t.get("figures") else ""}{evidence(t["items"], pubs)}</article>')
 
     by_domain = {}
     for p in projects:

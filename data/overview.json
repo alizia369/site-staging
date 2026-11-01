@@ -1,5 +1,5 @@
 {
- "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed); top_venues are named on the home publications tile and must each match the short name of at least one paper in publications.json. themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json.",
+ "_note": "Structured content for the home, Research, Resume and Teaching pages. career: roles in chronological order (the phone timeline uses this order); band/col/row place them in the two-row desktop flow on the Resume page; cat is edu, ind, acad or res (industry + academic research); teach adds a teaching badge. milestones: the short career strip on the home page. stats: figures that cannot be counted from other data files (publication, citation and repository counts are computed); top_venues are named on the home publications tile and must each match the short name of at least one paper in publications.json. themes and applications: each item lists the start of one or more publication titles from publications.json; the build links every one to that paper on the Publications page and stops with an error if a title does not match exactly one paper. Projects join an application through their domain in projects.json. Theme figures: img is relative to assets/img/ (svg names a file in assets/svg/); paper links the caption to that publication.",
  "stats": {
   "funding": {
    "value": 1.3,
@@ -36,6 +36,7 @@
   "top_venues": [
    "IEEE TPAMI",
    "IEEE TIP",
+   "IEEE TGRS",
    "Computer Science Review",
    "NeurIPS",
    "ECCV"
@@ -277,6 +278,26 @@
       "ICML 2023 Topological Deep Learning Challenge"
      ]
     }
+   ],
+   "figures": [
+    {
+     "img": "papers/topotta-refinement.webp",
+     "alt": "Anomaly masks for a metal nut, a carrot and a transistor: input, ground truth, heat map, masks at increasing filtration levels and the final TopoTTA mask",
+     "caption": "Filtrations of the anomaly map yield clean pseudo-labels.",
+     "paper": "Learning Topology-Aware Representations via Test-Time"
+    },
+    {
+     "svg": "topoot-chain.svg",
+     "alt": "Diagram of optimal transport chained across persistence diagrams from different thresholds and filtrations",
+     "caption": "Optimal transport chained across persistence diagrams.",
+     "paper": "Topology-Aware Optimal Transport"
+    },
+    {
+     "img": "papers/mmhcan-arch.webp",
+     "alt": "MM-HCAN architecture: a raw-signal branch and an STFT image branch, k-nearest-neighbour hypergraphs within and across modalities, and a multimodal hypergraph attention network",
+     "caption": "Hypergraphs within and across sensor modalities.",
+     "paper": "Hypergraph Contrastive Sensor Fusion"
+    }
    ]
   },
   {
@@ -312,8 +333,27 @@
       "Learning Structurally Consistent",
       "2D–3D Feature Fusion",
       "Multiscale Representations Learning Transformer",
-      "Implicit Spatial-Frequency Fusion"
+      "Geometry-Conditioned Implicit"
      ]
+    }
+   ],
+   "figures": [
+    {
+     "img": "projects/hsi-cube.jpg",
+     "alt": "A hyperspectral image cube, the spectrum of one pixel plotted against wavelength, and a false-colour map",
+     "caption": "Each pixel carries a spectrum rather than three colours."
+    },
+    {
+     "img": "papers/hyperradar-arch.webp",
+     "alt": "HyperRadar architecture: range–Doppler, range–angle and angle–Doppler radar views are encoded, refined with hypergraph features and fused for segmentation",
+     "caption": "Three radar views refined with hypergraphs and fused.",
+     "paper": "Learning Structurally Consistent"
+    },
+    {
+     "img": "papers/hyperradar-results.webp",
+     "alt": "Radar segmentation results for two driving scenes: camera frame, radar views, ground truth and predicted masks",
+     "caption": "Multi-view radar segmentation compared with ground truth.",
+     "paper": "Learning Structurally Consistent"
     }
    ]
   },
@@ -350,6 +390,20 @@
       "SSTD: Stripe-Like",
       "Contrastive-Aware ViT"
      ]
+    }
+   ],
+   "figures": [
+    {
+     "img": "papers/topotta-3d.webp",
+     "alt": "3D anomaly detection results for a cable gland, carrot, dowel, foam, rope, tyre and potato: RGB, point cloud, ground truth and masks from baselines and TopoTTA",
+     "caption": "Test-time adaptation on 3D benchmarks, without source data or labels.",
+     "paper": "Learning Topology-Aware Representations via Test-Time"
+    },
+    {
+     "img": "mafr.jpg",
+     "alt": "MAFR architecture: RGB and point-cloud features are extracted, fused and restored, and anomaly maps are aggregated from the restoration errors",
+     "caption": "Anomalies found from how poorly each modality is restored.",
+     "paper": "2D–3D Feature Fusion"
     }
    ]
   }

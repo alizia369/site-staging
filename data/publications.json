@@ -76,6 +76,23 @@
   },
   {
    "year": 2026,
+   "title": "Geometry-Conditioned Implicit Spatial–Frequency Fusion Network for Hyperspectral–LiDAR Classification",
+   "authors": "Z. Long, J. X. Yang, J. Wang, A. Zia, G. Fu, J. Zhou",
+   "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+   "type": "journal",
+   "topics": [
+    "hyperspectral",
+    "sensing"
+   ],
+   "links": {
+    "arxiv": "https://arxiv.org/abs/2605.14239"
+   },
+   "selected": true,
+   "short": "IEEE TGRS",
+   "note": "Accepted"
+  },
+  {
+   "year": 2026,
    "title": "Expert Fusion Network for Automated Blastocyst Morphology and IVF Decision Support",
    "authors": "A. Zia, S. Qureshi, F. Ansarizadeh, M. Fozan, E. Kamawal, S. Anwer, et al.",
    "venue": "IEEE Journal of Biomedical and Health Informatics",
@@ -230,20 +247,6 @@
    ],
    "links": {
     "arxiv": "https://arxiv.org/abs/2603.09484"
-   },
-   "selected": false
-  },
-  {
-   "year": 2026,
-   "title": "Implicit Spatial-Frequency Fusion of Hyperspectral and LiDAR Data via Kolmogorov-Arnold Networks",
-   "authors": "Z. Long, J. X. Yang, J. Wang, A. Zia, G. Fu, J. Zhou",
-   "venue": "arXiv preprint",
-   "type": "preprint",
-   "topics": [
-    "hyperspectral"
-   ],
-   "links": {
-    "arxiv": "https://arxiv.org/abs/2605.14239"
    },
    "selected": false
   },
