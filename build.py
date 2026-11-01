@@ -582,7 +582,7 @@ def build_career(ov, pubs):
     n_conf = sum(p["type"] in ("conference", "workshop") for p in pubs)
     st = ov["stats"]
     stats = "".join([
-        stat_tile(len(pubs), "publications", f"{n_journal} journal articles and {n_conf} conference and workshop papers"),
+        stat_tile(len(pubs), "publications", f"{n_journal} journal articles, {n_conf} conference and workshop papers, {len(pubs) - n_journal - n_conf} preprints and other works"),
         stat_tile(SCHOLAR.get("citations", 0), "citations", f"h-index {SCHOLAR.get('h_index', 0)} on Google Scholar, {scholar_date()}"),
         stat_tile(st["funding"]["value"], st["funding"]["label"], st["funding"]["detail"], st["funding"].get("decimals", 0),
                   st["funding"].get("prefix", ""), st["funding"].get("suffix", "")),
