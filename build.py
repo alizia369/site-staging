@@ -465,7 +465,8 @@ def build_resume():
           </ul>
           <h2 class="block-title" style="margin-top:32px">Service and recognition</h2>
           <ul class="entries">
-            <li><div class="h">Tutorial organiser</div><div class="s">Topological Deep Learning, ACML 2026</div></li>
+            <li><div class="h">Lead guest editor</div><div class="s">SN Computer Science special issue, AI in Agriculture, 2026</div></li>
+            <li><div class="h">Tutorial lead</div><div class="s">Topological Deep Learning, ACML 2026</div></li>
             <li><div class="h">Co-lead</div><div class="s">CSIRO ML Workshop Series</div></li>
             <li><div class="h">Best student paper award</div><div class="s">DICTA 2025</div></li>
             <li><div class="h">Guest editor</div><div class="s">Frontiers in Remote Sensing special issue on resilient cities, remote sensing and AI, 2025</div></li>

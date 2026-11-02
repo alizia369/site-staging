@@ -246,6 +246,18 @@
  },
  "recognition": [
   {
+   "icon": "book",
+   "title": "Lead guest editor",
+   "detail": "SN Computer Science (Springer Nature) special issue on Artificial Intelligence in Agriculture",
+   "year": "2026"
+  },
+  {
+   "icon": "mic",
+   "title": "Tutorial lead",
+   "detail": "ACML 2026 tutorial, Topological Deep Learning for Robust Representation Learning, Melbourne, with Abdelwahed Khamis (CSIRO)",
+   "year": "2026"
+  },
+  {
    "icon": "award",
    "title": "Best Student Paper Award",
    "detail": "For weakly supervised pixel-wise classification of hyperspectral images",
