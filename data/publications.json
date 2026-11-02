@@ -2,6 +2,35 @@
  "_note": "Curated from Google Scholar (Oct 2026). Fields: year, title, authors, venue, type (journal|conference|workshop|preprint|book|thesis|dataset), topics, links {paper, arxiv, code, project}, note, featured (home page card), selected (home page list). Run `python build.py` after editing.",
  "items": [
   {
+   "year": 2027,
+   "title": "Context-Aware AI for Localised Pollen-Risk Guidance in Asthma Self-Management",
+   "authors": "Z. Sako, A. Zia, N. Wickramasinghe",
+   "venue": "Hawaii International Conference on System Sciences (HICSS-60)",
+   "short": "HICSS",
+   "type": "conference",
+   "topics": [
+    "health"
+   ],
+   "links": {},
+   "selected": false,
+   "note": "Accepted"
+  },
+  {
+   "year": 2026,
+   "title": "Editorial: Building Resilient Cities with Remote Sensing and AI",
+   "authors": "S. Abbas, F. M. Qamer, A. Zia",
+   "venue": "Frontiers in Remote Sensing 7",
+   "short": "Frontiers in Remote Sensing",
+   "type": "editorial",
+   "topics": [
+    "sensing"
+   ],
+   "links": {
+    "paper": "https://doi.org/10.3389/frsen.2026.1991820"
+   },
+   "selected": false
+  },
+  {
    "year": 2026,
    "title": "Learning Topology-Aware Representations via Test-Time Adaptation for Anomaly Segmentation",
    "authors": "A. Zia, U. Ali, A. Rehman, U. Ramzan, K. Han, M. Faheem, S. Qureshi, W. Xiang",
@@ -23,7 +52,7 @@
   },
   {
    "year": 2026,
-   "title": "Topology-Aware Optimal Transport for Source-Free Test-Time Adaptation in Anomaly Segmentation",
+   "title": "Test-Time Adaptation for Anomaly Segmentation via Topology-Aware Optimal Transport Chaining",
    "authors": "A. Zia, U. Ali, U. Ramzan, A. Rehman, A. Khamis, W. Xiang",
    "venue": "Advances in Neural Information Processing Systems (NeurIPS)",
    "short": "NeurIPS",

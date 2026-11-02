@@ -38,7 +38,7 @@ TOPICS = [("topology", "Topology"), ("hyperspectral", "Hyperspectral"), ("anomal
           ("agriculture", "Agriculture & food"), ("health", "Health"), ("sensing", "Radar & sensing"),
           ("3d", "3D vision"), ("robustness", "Robustness"), ("generative", "Generative"), ("other", "Other")]
 TYPES = [("journal", "Journal"), ("conference", "Conference"), ("workshop", "Workshop"),
-         ("preprint", "Preprint"), ("dataset", "Dataset"), ("book", "Book chapter"), ("thesis", "Thesis")]
+         ("preprint", "Preprint"), ("editorial", "Editorial"), ("dataset", "Dataset"), ("book", "Book chapter"), ("thesis", "Thesis")]
 
 
 def data(name):
@@ -177,7 +177,7 @@ def link_buttons(links):
 
 # ---------------------------------------------------------------- home
 FEATURED_COPY = {
-    "Topology-Aware Optimal Transport": ("svg:topoot-chain.svg", "TopoOT chains optimal transport across persistence diagrams from different thresholds and filtrations, then trains a light head online on the features that stay stable. Up to +24.1% mean F1 over the next best method on 2D benchmarks."),
+    "Test-Time Adaptation for Anomaly Segmentation via": ("svg:topoot-chain.svg", "TopoOT chains optimal transport across persistence diagrams from different thresholds and filtrations, then trains a light head online on the features that stay stable. Up to +24.1% mean F1 over the next best method on 2D benchmarks."),
     "Learning Topology-Aware Representations": ("topotta-arch.jpg", "TopoTTA replaces threshold heuristics with persistent homology on anomaly maps, producing pseudo-labels that keep defects connected. About 15% higher F1 on average across five 2D and 3D benchmarks."),
     "Hypergraph Contrastive Sensor Fusion": ("mmhcan.jpg", "MM-HCAN builds hypergraphs within and across sensor modalities and trains them contrastively, diagnosing bearing, stator and rotor faults together. Up to 99.82% accuracy with strong cross-domain transfer."),
     "2D–3D Feature Fusion": ("mafr.jpg", "MAFR fuses RGB and point clouds in one latent space and finds anomalies by how badly each modality restores. Mean I-AUROC of 0.972 on MVTec 3D-AD."),
@@ -207,7 +207,7 @@ def build_home(news, pubs, code):
     toggle = ('<button class="toggle" type="button" aria-expanded="false" aria-controls="news-list" id="news-toggle">Show older news</button>'
               if len(news) > 6 else "")
 
-    order = ["Topology-Aware Optimal Transport", "Learning Topology-Aware Representations", "Hypergraph Contrastive Sensor Fusion", "2D–3D Feature Fusion"]
+    order = ["Test-Time Adaptation for Anomaly Segmentation via", "Learning Topology-Aware Representations", "Hypergraph Contrastive Sensor Fusion", "2D–3D Feature Fusion"]
     feats = []
     for key in order:
         p = next((x for x in pubs if x["title"].startswith(key)), None)
@@ -468,6 +468,7 @@ def build_resume():
             <li><div class="h">Lead guest editor</div><div class="s"><a href="https://link.springer.com/collections/fiaehabchh" rel="noopener">SN Computer Science collection, AI for Agriculture</a>, 2026</div></li>
             <li><div class="h">Tutorial lead</div><div class="s"><a href="https://www.acml-conf.org/2026/program/tutorials/" rel="noopener">Topological Deep Learning, ACML 2026</a></div></li>
             <li><div class="h">Silver Reviewer</div><div class="s">ICML 2026</div></li>
+            <li><div class="h">Reviewer</div><div class="s">CVPR 2026</div></li>
             <li><div class="h">Co-lead</div><div class="s">CSIRO ML Workshop Series</div></li>
             <li><div class="h">Best student paper award</div><div class="s">APRS/IEEE, DICTA 2025</div></li>
             <li><div class="h">Guest editor</div><div class="s">Frontiers in Remote Sensing special issue on resilient cities, remote sensing and AI, 2025</div></li>
