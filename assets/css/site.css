@@ -400,6 +400,8 @@ a.g-media:hover { border-color: var(--a, var(--leaf)); }
 .aw-ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--leaf-soft); color: var(--leaf); }
 .aw-ic svg { width: 17px; height: 17px; }
 .awards .h { display: block; font-weight: 600; line-height: 1.35; }
+.awards .h a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--leaf) 55%, transparent); text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+.awards .h a:hover { color: var(--leaf); text-decoration-color: currentColor; }
 .awards .s { display: block; font-size: .88rem; color: var(--ink-2); line-height: 1.45; margin-top: 2px; }
 .awards .s .vt { --a: var(--leaf); margin-left: 2px; }
 .awards .y { font-size: .82rem; color: var(--ink-2); white-space: nowrap; padding-top: 2px; }

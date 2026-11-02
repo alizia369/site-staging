@@ -465,8 +465,8 @@ def build_resume():
           </ul>
           <h2 class="block-title" style="margin-top:32px">Service and recognition</h2>
           <ul class="entries">
-            <li><div class="h">Lead guest editor</div><div class="s">SN Computer Science special issue, AI in Agriculture, 2026</div></li>
-            <li><div class="h">Tutorial lead</div><div class="s">Topological Deep Learning, ACML 2026</div></li>
+            <li><div class="h">Lead guest editor</div><div class="s"><a href="https://link.springer.com/collections/fiaehabchh" rel="noopener">SN Computer Science collection, AI for Agriculture</a>, 2026</div></li>
+            <li><div class="h">Tutorial lead</div><div class="s"><a href="https://www.acml-conf.org/2026/program/tutorials/" rel="noopener">Topological Deep Learning, ACML 2026</a></div></li>
             <li><div class="h">Co-lead</div><div class="s">CSIRO ML Workshop Series</div></li>
             <li><div class="h">Best student paper award</div><div class="s">DICTA 2025</div></li>
             <li><div class="h">Guest editor</div><div class="s">Frontiers in Remote Sensing special issue on resilient cities, remote sensing and AI, 2025</div></li>
@@ -660,7 +660,10 @@ def recognition_html(pubs):
         detail = esc(r["detail"])
         if r.get("paper"):
             detail += " " + venue_tag(find_pub(pubs, r["paper"]))
-        lis.append(f'<li><span class="aw-ic">{icon(r["icon"])}</span><div><span class="h">{esc(r["title"])}</span>'
+        title = esc(r["title"])
+        if r.get("url"):
+            title = f'<a href="{esc(r["url"])}" rel="noopener">{title}</a>'
+        lis.append(f'<li><span class="aw-ic">{icon(r["icon"])}</span><div><span class="h">{title}</span>'
                    f'<span class="s">{detail}</span></div><span class="y">{esc(r["year"])}</span></li>')
     return f'<ul class="awards">{"".join(lis)}</ul>'
 

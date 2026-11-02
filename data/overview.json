@@ -248,14 +248,16 @@
   {
    "icon": "book",
    "title": "Lead guest editor",
-   "detail": "SN Computer Science (Springer Nature) special issue on Artificial Intelligence in Agriculture",
-   "year": "2026"
+   "detail": "SN Computer Science (Springer Nature) collection, AI for Agriculture, open for submissions until 31 May 2027",
+   "year": "2026",
+   "url": "https://link.springer.com/collections/fiaehabchh"
   },
   {
    "icon": "mic",
    "title": "Tutorial lead",
-   "detail": "ACML 2026 tutorial, Topological Deep Learning for Robust Representation Learning, Melbourne, with Abdelwahed Khamis (CSIRO)",
-   "year": "2026"
+   "detail": "ACML 2026 tutorial, Topological Deep Learning for Robust Representation Learning: Foundations, Architectures, and Applications, with Abdelwahed Khamis (CSIRO)",
+   "year": "2026",
+   "url": "https://www.acml-conf.org/2026/program/tutorials/"
   },
   {
    "icon": "award",
