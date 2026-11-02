@@ -264,7 +264,7 @@ def build_home(news, pubs, code):
     </section>
 
     <section id="recognition" aria-labelledby="rec-h">
-      <h2 id="rec-h">Awards and recognition</h2>
+      <h2 id="rec-h">Selected awards and recognition</h2>
       {recognition_html(pubs)}
     </section>
 
